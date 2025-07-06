@@ -9,6 +9,8 @@ It supports:
 - Summary of ellipse shape + % of points enclosed
 
 For background, see:  
+📚 Reference:Yuill, R. S. (1971). The Standard Deviational Ellipse: An Updated Tool for Spatial Description. Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
+
 📖 [ArcGIS documentation on Standard Deviational Ellipses](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)
 
 ---
