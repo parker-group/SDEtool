@@ -17,7 +17,11 @@ For background, see:
 
 ### 1. Source the functions
 ```r
+# Option 1: If running locally after cloning this repo
 source("SDE_functions.r")
+
+# Option 2: Run directly from GitHub (raw link)
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
 ```
 
 ### 2. Generate synthetic test data
