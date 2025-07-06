@@ -96,13 +96,6 @@ sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
 
 ---
 
-## 📦 File list
-
-- `SDE_functions.r` — Core functions to generate SDEs and helper tools  
-- `README.md` — Instructions and usage
-
----
-
 ## 🔬 What This Calculates
 
 The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.  
