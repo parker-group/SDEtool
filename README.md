@@ -78,7 +78,6 @@ sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
 
 - `SDE_functions.r` — Core functions to generate SDEs and helper tools
 - `README.md` — Instructions and usage
-- _[Optional later]_ Example synthetic dataset or shapefile
 
 ---
 
