@@ -93,7 +93,32 @@ aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
 
 ---
 
-### 6. Export as shapefile (optional)
+### 6. Plot the ellipses and points on a map
+```r
+#load necessary packages
+library(ggplot2)
+library(sf)
+
+#ggplot function to make the map
+## this map will be in UTMs. It would be possible to convert back to WGS84
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), 
+          alpha = 0.3, color = "black", linetype = "solid") +
+  geom_sf(data = sf_pts_proj, aes(color = Region), 
+          size = 1.2, alpha = 0.8) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  scale_color_brewer(palette = "Dark2", name = "Region") +
+  theme_minimal() +
+  labs(
+    title = "Standard Deviational Ellipses and Point Distributions",
+    subtitle = "Grouped by Region",
+    x = "Easting (meters)", y = "Northing (meters)"
+  )
+```
+
+---
+
+### 7. Export as shapefile (optional)
 
 ```r
 sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
