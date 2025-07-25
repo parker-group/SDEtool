@@ -68,9 +68,10 @@ sf_pts_proj <- convert_to_sf_utm(df)
 ### 4. Generate SDEs
 
 ```r
+#note that you can modify different components of the function here
 sde_sf <- generate_sde_ellipses(
   sf_pts_proj,
-  group_vars = c("Location", "org1_genus"),
+  group_vars = "Region",
   sd_levels = c(1, 2, 3),
   min_points = 5,
   sqrt2_scaling = TRUE,
