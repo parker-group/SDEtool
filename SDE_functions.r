@@ -1,3 +1,9 @@
+################################################################################
+####### step one of the process is to run these functions. #####################
+#######   then either use the simulation (in readme) or use your own data ######
+################################################################################
+
+
 # Load required libraries
 library(sf)
 library(dplyr)
@@ -8,6 +14,8 @@ library(purrr)
 # ----------------------------
 
 # Detect latitude and longitude columns
+# I've written in a few different ways you could label your lat/lon
+# if you've not used any of these labels, you'll likely get an error message here
 detect_latlon <- function(df) {
   lat_candidates <- c("latitude", "Latitude", "lat", "Lat", "y", "Y")
   lon_candidates <- c("longitude", "Longitude", "lon", "Lon", "x", "X")
@@ -20,6 +28,8 @@ detect_latlon <- function(df) {
 }
 
 # Auto-detect UTM zone from coordinates
+## we want to move to UTMs so that we can later have some straightforward 
+##   calculations on distances, area, etc. 
 auto_utm <- function(lon, lat) {
   zone <- floor((mean(lon, na.rm = TRUE) + 180) / 6) + 1
   hemisphere <- ifelse(mean(lat, na.rm = TRUE) >= 0, "north", "south")
@@ -28,6 +38,7 @@ auto_utm <- function(lon, lat) {
 }
 
 # Convert to sf and project to detected UTM zone
+## now that we know what the UTM zone should be, we project the lat/lon to that
 convert_to_sf_utm <- function(df) {
   coords <- detect_latlon(df)
   sf_obj <- st_as_sf(df, coords = c(coords$lon, coords$lat), crs = 4326, remove = FALSE)
@@ -36,6 +47,7 @@ convert_to_sf_utm <- function(df) {
 }
 
 # Build an ellipse polygon
+## now we move towards generating the SDEs
 build_ellipse <- function(x, y, sd = 1, n_points = 100, sqrt2_scaling = TRUE) {
   if (length(x) < 2 || length(y) < 2 || anyNA(x) || anyNA(y)) return(NULL)
   cov_mat <- stats::cov(cbind(x, y))
@@ -52,6 +64,9 @@ build_ellipse <- function(x, y, sd = 1, n_points = 100, sqrt2_scaling = TRUE) {
 }
 
 # Main ellipse generator
+## note that we're automatically generating 1, 2, and 3 standard deviations
+## I've set the minimum number of points to 5, less than that seems silly for stats
+#### note that you could also use weighted data here, if you want: weight_col = ??
 generate_sde_ellipses <- function(sf_data,
                                    group_vars = c("Location", "org1_genus"),
                                    sd_levels = c(1, 2, 3),
