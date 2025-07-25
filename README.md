@@ -58,7 +58,7 @@ df <- rbind(group1, group2)
 ### 3. Convert to spatial object and auto-detect UTM
 
 ```r
-sf_pts_proj <- convert_to_sf_utm(df, x_col = "X", y_col = "Y")
+sf_pts_proj <- convert_to_sf_utm(df)
 ```
 
 ---
