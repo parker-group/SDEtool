@@ -34,20 +34,22 @@ source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_function
 ### 2. Generate synthetic test data
 
 ```r
+
+### creating 2 'groups' of points. Group 1 will have Region = SimRegion1; Group 2 will have Region = SimRegion2
+### we will later create SDEs by Region
 set.seed(42)
 n <- 100
+
 group1 <- data.frame(
   X = rnorm(n, mean = 0, sd = 5),
   Y = rnorm(n, mean = 0, sd = 2),
-  Location = "SimRegion1",
-  org1_genus = "VirusA"
+  Region = "SimRegion1"
 )
 
 group2 <- data.frame(
   X = rnorm(n, mean = 20, sd = 3),
   Y = rnorm(n, mean = 15, sd = 6),
-  Location = "SimRegion2",
-  org1_genus = "VirusB"
+  Region = "SimRegion2"
 )
 
 df <- rbind(group1, group2)
