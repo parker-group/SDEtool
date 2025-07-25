@@ -85,7 +85,8 @@ generate_sde_ellipses <- function(sf_data,
   skipped <- list()
 
   for (g in group_data) {
-    key <- paste(g[[group_vars[1]]][1], g[[group_vars[2]]][1], sep = " | ")
+    key_vals <- sapply(group_vars, function(v) as.character(g[[v]][1]))
+	key <- paste(key_vals, collapse = " | ")
     n <- nrow(g)
     if (n < min_points) {
       skipped[[key]] <- paste0("Skipped (", n, " points)")
