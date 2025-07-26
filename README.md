@@ -70,7 +70,7 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 
 ### 4. Generate the SDEs
 
-Use the main function to create ellipses for each group:
+Use the main function to create ellipses for each group. Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.
 
 ```r
 sde_sf <- generate_sde_ellipses(
@@ -145,6 +145,7 @@ df <- rbind(
   )
 )
 
+#now use the SDE tools
 sf_pts_proj <- convert_to_sf_utm(df)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
@@ -188,6 +189,7 @@ df <- rbind(
   )
 )
 
+#now use the SDE tools
 sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
