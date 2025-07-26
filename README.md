@@ -1,6 +1,7 @@
 # 📍 Standard Deviational Ellipse (SDE) Tool: SDEtool
 
-[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/parker-group/SDEtool/blob/main/VERSION)
+[![](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/parker-group/SDEtool/releases/tag/v1.0.0)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/parker-group/SDEtool/blob/main/LICENSE)
 
 
