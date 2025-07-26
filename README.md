@@ -132,7 +132,7 @@ sf::st_write(sde_wgs84, "SDE_ellipses_WGS84.shp", delete_dsn = TRUE)
 ```r
 set.seed(123)
 n <- 100
-df <- rbind(
+df1 <- rbind(
   data.frame(
     Longitude = runif(n / 2, min = 36.6, max = 36.7),
     Latitude = runif(n / 2, min = -1.5, max = -1.4),
@@ -145,8 +145,11 @@ df <- rbind(
   )
 )
 
+#what do my data look like?
+head(df1)
+
 #now use the SDE tools
-sf_pts_proj <- convert_to_sf_utm(df)
+sf_pts_proj <- convert_to_sf_utm(df1)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
 
@@ -176,7 +179,7 @@ ggplot() +
 ```r
 set.seed(456)
 n <- 100
-df <- rbind(
+df2 <- rbind(
   data.frame(
     X = rnorm(n / 2, mean = 490000, sd = 5000),
     Y = rnorm(n / 2, mean = 980000, sd = 5000),
@@ -189,8 +192,11 @@ df <- rbind(
   )
 )
 
+#what do my data look like?
+head(df2)
+
 #now use the SDE tools
-sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
+sf_pts_proj <- convert_to_sf_utm(df2, input_crs = 32636, target_epsg = 32636)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
 
@@ -213,6 +219,71 @@ ggplot() +
 
 ```
 
+---
+
+## 🧪 Simulated Example 3: Latitude/Longitude Data with a count of people/samples from each location, to be used as a weight
+```r
+# Simulate spatial points in two regions with distinct geographic clusters
+set.seed(789)
+n <- 100
+
+# Group "East"
+east <- data.frame(
+  Longitude = runif(n / 2, min = 36.6, max = 36.75),
+  Latitude = runif(n / 2, min = -1.5, max = -1.35),
+  Region = "East",
+  count = sample(1:10, n / 2, replace = TRUE)
+)
+
+# Group "West" farther away
+west <- data.frame(
+  Longitude = runif(n / 2, min = 36.85, max = 37.0),
+  Latitude = runif(n / 2, min = -1.2, max = -1.05),
+  Region = "West",
+  count = sample(1:10, n / 2, replace = TRUE)
+)
+
+# Combine the two
+df <- rbind(east, west)
+
+# Convert to spatial object with UTM projection
+sf_pts_proj <- convert_to_sf_utm(df)
+
+# Generate weighted SDEs
+sde_sf <- generate_sde_ellipses(
+  sf_pts_proj,
+  group_vars = "Region",
+  sd_levels = c(1, 2, 3),
+  min_points = 5,
+  sqrt2_scaling = TRUE,
+  dof_correction = TRUE,
+  weight_col = "count"
+)
+
+# Inspect output
+print(sde_sf)
+
+# Plot SDEs and weighted points
+library(ggplot2)
+library(sf)
+
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)),
+          alpha = 0.3, color = "black") +
+  geom_sf(data = sf_pts_proj, aes(size = count, color = Region),
+          alpha = 0.8) +
+  scale_size_continuous(range = c(1, 6)) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  scale_color_brewer(palette = "Dark2", name = "Region") +
+  theme_minimal() +
+  labs(
+    title = "Weighted SDEs by Region",
+    subtitle = "Point size represents 'count' used as weight",
+    x = "Easting", y = "Northing"
+  )
+
+
+```
 ---
 
 ## 🛍 Coordinate System Tips
