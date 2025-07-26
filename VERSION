@@ -1,0 +1,8 @@
+v1.0.0
+Released: 2025-07-26
+Initial public release of the Standard Deviational Ellipse (SDE) Tool.
+Includes:
+- Support for 1, 2, 3 SD ellipses
+- Weighted input points
+- Yuill + √2 correction
+- Validation against CrimeStat outputs
