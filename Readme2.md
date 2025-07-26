@@ -117,7 +117,12 @@ ggplot() +
 If desired, export your SDEs to a shapefile:
 
 ```r
+#this will export a .shp file in the UTMs we are using here. You will need to update the folder location
 sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
+
+#this will convert back to WGS84 (normal lat/lon) before you export the .shp file. You will need to update the folder location
+sde_wgs84 <- sf::st_transform(sde_sf, crs = 4326)
+sf::st_write(sde_wgs84, "SDE_ellipses_WGS84.shp", delete_dsn = TRUE)
 ```
 
 ---
