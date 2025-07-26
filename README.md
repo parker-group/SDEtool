@@ -373,10 +373,6 @@ These tools are well established and widely used within desktop GIS environments
 
 This R-based tool was created to provide a fully **open-source**, **script-based**, and **reproducible** alternative tailored for R users. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analyses.  
 
-I developed this tool after encountering limitations with plugin-based approaches and needing a workflow that could be easily validated, customized, and shared in R.
-
+I developed this tool after encountering limitations with plugin-based approaches and needing a workflow that could be easily validated, customized, and shared in R. Feel free to fork or adapt!
 
 ---
-
-
-🧪 Created for internal spatial analysis. Feel free to fork or adapt!
