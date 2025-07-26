@@ -1,6 +1,6 @@
 # 📍 Standard Deviational Ellipse (SDE) Tool
 
-# This R tool computes Standard Deviational Ellipses (SDEs) for spatial point data grouped by user-defined variables.
+This R tool computes Standard Deviational Ellipses (SDEs) for spatial point data grouped by user-defined variables.
 # It supports:
 # - Multiple standard deviation levels (e.g., 1, 2, 3 SD)
 # - Weighted points (optional)
