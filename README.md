@@ -54,8 +54,6 @@ df <- data.frame(
 
 ### 3. Convert to sf object and UTM projection
 
-### 3. Convert to sf object and UTM projection
-
 We need to convert to an `sf` (simple feature), which tells R that the data are spatial (and special too) — meaning that the coordinates represent geometry. The `sf` object includes CRS metadata. We'll also convert to UTM so that distances and areas are straightforward in their calculations (UTMs are metric).
 
 Use `convert_to_sf_utm()` to convert the data to a spatial object and project it to UTM automatically:
