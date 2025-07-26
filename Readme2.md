@@ -215,7 +215,7 @@ ggplot() +
 
 ## 🛍 Coordinate System Tips
 
-| Your Data Looks Like…                          | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
+| Your Data Look Like…                           | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
 |------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
 | Values like `-1.3`, `36.8`                     | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
 | GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                   |
