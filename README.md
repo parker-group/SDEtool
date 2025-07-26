@@ -42,7 +42,7 @@ You must first load the R functions before any other step will work.
 There are **three ways** to do this:
 
 - 🖱️ **Option 1: Copy + paste directly into R**  
-  You can literally scroll down to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
+  You can literally go to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
 
 - 💻 **Option 2: Source the file locally** (if you've cloned or downloaded this repo)  
   ```r
