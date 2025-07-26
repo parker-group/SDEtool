@@ -1,0 +1,7 @@
+validation/data/*.shp
+validation/data/*.shx
+validation/data/*.dbf
+validation/data/*.prj
+validation/data/*.qmd
+validation/data/*.cpg
+validation/results/
