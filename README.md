@@ -14,6 +14,17 @@ For background, see:
 
 ---
 
+## 📂 Table of Contents
+
+- [Overview](#-standard-deviational-ellipse-sde-tool)
+- [SDE Functions](#sdefunctionsr)
+- [Validation Materials](#validation)
+- [Reference PDF](#the-standard-deviational-ellipse-an-updated-tool-for-spatial-descriptionpdf)
+- [Usage](#usage)
+- [License](#license)
+
+---
+
 ## 🔧 Workflow Steps
 
 ### 1. Load the required functions
