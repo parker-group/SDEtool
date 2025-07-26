@@ -365,13 +365,16 @@ Ellipse orientation is defined by the **eigenvector** of the covariance matrix o
 
 There are several other tools that support Standard Deviational Ellipse (SDE) calculations, including:
 
-- 🧭 **[CrimeStat](https://nij.ojp.gov/library/publications/crimestat-40-user-manual)]** – a comprehensive spatial analysis program used widely in criminology and public safety
-- 🛰️ **[ArcGIS SDE Tool](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)** – a built-in function in ArcGIS for directional distribution analysis
-- 🧩 **[QGIS SDE Plugin](https://github.com/havatv/qgisstandarddeviationalellipseplugin)** – a community-developed plugin for generating ellipses in QGIS
+- 🧭 **[CrimeStat](https://nij.ojp.gov/library/publications/crimestat-40-user-manual)** – a comprehensive spatial analysis program used widely in criminology and public safety  
+- 🛰️ **[ArcGIS SDE Tool](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)** – a built-in function in ArcGIS for directional distribution analysis  
+- 🧩 **[QGIS SDE Plugin](https://github.com/havatv/qgisstandarddeviationalellipseplugin)** – a community-developed plugin for generating ellipses in QGIS  
 
 These tools are well established and widely used within desktop GIS environments.
 
-This R-based tool was created to provide a fully **open-source**, **script-based**, and **reproducible** alternative tailored for R users. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analysis.
+This R-based tool was created to provide a fully **open-source**, **script-based**, and **reproducible** alternative tailored for R users. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analyses.  
+
+I developed this tool after encountering limitations with plugin-based approaches and needing a workflow that could be easily validated, customized, and shared in R.
+
 
 ---
 
