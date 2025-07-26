@@ -49,9 +49,9 @@ lon_candidates <- c("longitude", "Longitude", "lon", "Lon", "x", "X")
 
 If your coordinate columns don't match these, rename them before running the functions.
 
-If you're grouping by a variable (e.g., region, year, or category), name it or them clearly — e.g., `Region` or `group_var`. You can have multiple. 
+If you're grouping by a variable (e.g., region, year, or category), name it or them clearly — e.g., `Region` or `genus`. You can have multiple. 
 
-If your data have repeats per location, you can either run the tool with multiple rows having the same location - or - you could generate a dataset that has one row per location and a count of people or samples from each location. Make sure you clearly name that count variable as well, and you can use that as a 'weight' in the SDE function. 
+If your data have repeats per location, you can either run the tool with multiple rows having the same location - or - you could generate a dataset that has one row per location and a count of people or samples from each location. Make sure you clearly name that `count` variable as well, and you can use that as a `weight` in the SDE function. 
 
 Example:
 
