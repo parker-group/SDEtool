@@ -19,9 +19,7 @@ Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/
 
 Before using this tool, you **must** load the required functions.
 
-```r
 You can access the functions here at [SDE functions](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
-```
 
 ➡️ [View the SDE_functions.r script on GitHub](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
