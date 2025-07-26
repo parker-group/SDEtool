@@ -1,7 +1,7 @@
 # 📍 Standard Deviational Ellipse (SDE) Tool: SDEtool
 
-**Version:** 1.0.0  
-**Date Released:** July 2025
+[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/parker-group/SDEtool/blob/main/version.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/parker-group/SDEtool/blob/main/LICENSE.md)
 
 This R tool computes **Standard Deviational Ellipses (SDEs)** for spatial point data grouped by user-defined variables.  
 It supports:
