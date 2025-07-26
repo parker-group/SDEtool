@@ -22,6 +22,8 @@ For background, see:
 - [Simulated Example 3: Latitude/Longitude Data with Weights](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
 - [Coordinate System Tips](#-coordinate-system-tips)
 - [What This Calculates](#-what-this-calculates)
+- [Validation](#-validation)
+- [Reference PDF](#-reference-pdf)
 
 ---
 
