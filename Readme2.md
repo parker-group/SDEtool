@@ -127,15 +127,40 @@ sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
 ```r
 set.seed(123)
 n <- 100
-df <- data.frame(
-  Longitude = runif(n, min = 36.6, max = 37.0),
-  Latitude = runif(n, min = -1.5, max = -1.0),
-  Region = sample(c("East", "West"), n, replace = TRUE)
+df <- rbind(
+  data.frame(
+    Longitude = runif(n / 2, min = 36.6, max = 36.7),
+    Latitude = runif(n / 2, min = -1.5, max = -1.4),
+    Region = "East"
+  ),
+  data.frame(
+    Longitude = runif(n / 2, min = 36.9, max = 37.0),
+    Latitude = runif(n / 2, min = -1.1, max = -1.0),
+    Region = "West"
+  )
 )
 
 sf_pts_proj <- convert_to_sf_utm(df)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
+
+##generate a simple map in R
+# Load packages
+library(ggplot2)
+library(sf)
+
+# Plot
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
+  geom_sf(data = sf_pts_proj, aes(color = Region), size = 1.2) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  scale_color_brewer(palette = "Dark2", name = "Region") +
+  theme_minimal() +
+  labs(
+    title = "Simulated Ellipses from Latitude/Longitude Data",
+    subtitle = "Projected to UTM automatically",
+    x = "Easting (m)", y = "Northing (m)"
+  )
 ```
 
 ---
@@ -145,15 +170,40 @@ print(sde_sf)
 ```r
 set.seed(456)
 n <- 100
-df <- data.frame(
-  X = rnorm(n, mean = 500000, sd = 10000),
-  Y = rnorm(n, mean = 990000, sd = 12000),
-  Region = sample(c("North", "South"), n, replace = TRUE)
+df <- rbind(
+  data.frame(
+    X = rnorm(n / 2, mean = 490000, sd = 5000),
+    Y = rnorm(n / 2, mean = 980000, sd = 5000),
+    Region = "North"
+  ),
+  data.frame(
+    X = rnorm(n / 2, mean = 510000, sd = 5000),
+    Y = rnorm(n / 2, mean = 1000000, sd = 5000),
+    Region = "South"
+  )
 )
 
 sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
 print(sde_sf)
+
+#generate simple map in R
+# Load packages
+library(ggplot2)
+library(sf)
+# Plot
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
+  geom_sf(data = sf_pts_proj, aes(color = Region), size = 1.2) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  scale_color_brewer(palette = "Dark2", name = "Region") +
+  theme_minimal() +
+  labs(
+    title = "Simulated Ellipses from Projected UTM Coordinates",
+    subtitle = "EPSG:32636",
+    x = "Easting (m)", y = "Northing (m)"
+  )
+
 ```
 
 ---
