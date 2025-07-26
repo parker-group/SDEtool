@@ -23,7 +23,7 @@ For background, see:
 - [Coordinate System Tips](#-coordinate-system-tips)
 - [What This Calculates](#-what-this-calculates)
 - [Validation](validation/SDE_validation.md)
-- - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
+- [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
 
 
 ---
