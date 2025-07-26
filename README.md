@@ -16,12 +16,12 @@ For background, see:
 
 ## 📂 Table of Contents
 
-- [Overview](#-standard-deviational-ellipse-sde-tool)
-- [SDE Functions](#sdefunctionsr)
-- [Validation Materials](#validation)
-- [Reference PDF](#the-standard-deviational-ellipse-an-updated-tool-for-spatial-descriptionpdf)
-- [Usage](#usage)
-- [License](#license)
+- [Workflow Steps](#-workflow-steps)
+- [Simulated Example 1: Latitude/Longitude Data](#-simulated-example-1-latitudelongitude-data)
+- [Simulated Example 2: UTM Projected X/Y Data](#-simulated-example-2-utm-projected-xy-data)
+- [Simulated Example 3: Latitude/Longitude Data with Weights](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
+- [Coordinate System Tips](#-coordinate-system-tips)
+- [What This Calculates](#-what-this-calculates)
 
 ---
 
