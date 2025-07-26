@@ -38,15 +38,28 @@ Your dataset must:
 - Include **geographic coordinates**
   - Either longitude/latitude (in degrees), or
   - Projected X/Y values (e.g., UTM in meters)
-- Include a **grouping variable** (e.g., Region, Year, etc.) if you want to compare SDEs between subsets.
+- Optionally include a **grouping variable** (e.g., Region, Year, or group_var) if you want to compute SDEs for different subsets.
+
+The tool will automatically try to detect latitude and longitude columns using common names. Specifically, it searches for:
+
+```r
+lat_candidates <- c("latitude", "Latitude", "lat", "Lat", "y", "Y")
+lon_candidates <- c("longitude", "Longitude", "lon", "Lon", "x", "X")
+```
+
+If your coordinate columns don't match these, rename them before running the functions.
+
+If you're grouping by a variable (e.g., region, year, or category), name it or them clearly — e.g., `Region` or `group_var`. You can have multiple. 
+
+If your data have repeats per location, you can either run the tool with multiple rows having the same location - or - you could generate a dataset that has one row per location and a count of people or samples from each location. Make sure you clearly name that count variable as well, and you can use that as a 'weight' in the SDE function. 
 
 Example:
 
 ```r
 df <- data.frame(
-  Longitude = c(36.8, 36.9, 36.7),
-  Latitude = c(-1.3, -1.4, -1.2),
-  Region = c("A", "A", "B")
+  longitude = c(36.8, 36.9, 36.7),
+  latitude = c(-1.3, -1.4, -1.2),
+  group_var = c("A", "A", "B")
 )
 ```
 
