@@ -39,12 +39,31 @@ auto_utm <- function(lon, lat) {
 
 # Convert to sf and project to detected UTM zone
 ## now that we know what the UTM zone should be, we project the lat/lon to that
-convert_to_sf_utm <- function(df) {
+convert_to_sf_utm <- function(df, input_crs = 4326, target_epsg = NULL) {
   coords <- detect_latlon(df)
-  sf_obj <- st_as_sf(df, coords = c(coords$lon, coords$lat), crs = 4326, remove = FALSE)
-  epsg <- auto_utm(df[[coords$lon]], df[[coords$lat]])
-  st_transform(sf_obj, epsg)
+
+  # Create sf object with defined input CRS
+  sf_obj <- st_as_sf(df, coords = c(coords$lon, coords$lat), crs = input_crs, remove = FALSE)
+
+  # Decide target EPSG
+  if (is.null(target_epsg)) {
+    if (input_crs == 4326) {
+      target_epsg <- auto_utm(df[[coords$lon]], df[[coords$lat]])
+    } else {
+      stop("❌ Cannot auto-detect UTM from non-lat/lon input. Please specify `target_epsg` explicitly.")
+    }
+  }
+
+  # Message if input and target CRS are the same
+  if (input_crs == target_epsg) {
+    message("🤔 Are you nuts? Input and target CRS are the same — skipping transformation.")
+    return(sf_obj)
+  }
+
+  # Otherwise, transform to target CRS
+  st_transform(sf_obj, target_epsg)
 }
+
 
 # Build an ellipse polygon
 ## now we move towards generating the SDEs
