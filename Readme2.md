@@ -93,6 +93,21 @@ Print the results or summarize how many points fall within each SD level:
 ```r
 print(sde_sf)
 aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
+
+##plot a map of the data
+library(ggplot2)
+library(sf)
+
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
+  geom_sf(data = sf_pts_proj, color = "red", size = 1.5) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  theme_minimal() +
+  labs(
+    title = "Standard Deviational Ellipses",
+    subtitle = "With Input Points Overlaid",
+    x = "Easting (m)", y = "Northing (m)"
+  )
 ```
 
 ---
