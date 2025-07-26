@@ -36,17 +36,24 @@ For background, see:
 
 ### 1. Load the required functions
 
-You must first load the R functions before any other step will work:
+You must first load the R functions before any other step will work.
 
-```r
-# Option 1: If running locally after cloning this repo
-source("SDE_functions.r")
+There are **three ways** to do this:
 
-# Option 2: Run directly from GitHub (raw link)
-source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
-```
+- 🖱️ **Option 1: Copy + paste directly into R**  
+  You can literally scroll down to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
 
-➡️ [View the SDE_functions.r script on GitHub](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
+- 💻 **Option 2: Source the file locally** (if you've cloned or downloaded this repo)  
+  ```r
+  source("SDE_functions.r")
+  ```
+
+- 🌐 **Option 3: Source directly from GitHub**  
+  ```r
+  source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+  ```
+
+➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
 ---
 
