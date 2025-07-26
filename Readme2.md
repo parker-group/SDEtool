@@ -1,48 +1,57 @@
 # 📍 Standard Deviational Ellipse (SDE) Tool
 
-This R tool computes Standard Deviational Ellipses (SDEs) for spatial point data grouped by user-defined variables.
-# It supports:
-# - Multiple standard deviation levels (e.g., 1, 2, 3 SD)
-# - Weighted points (optional)
-# - Yuill + √2 correction (default)
-# - Degrees of freedom correction (default)
-# - Summary of ellipse shape + % of points enclosed
+This R tool computes **Standard Deviational Ellipses (SDEs)** for spatial point data grouped by user-defined variables.  
+It supports:
+- Multiple standard deviation levels (e.g., 1, 2, 3 SD)
+- Weighted points (optional)
+- Yuill + √2 correction (default)
+- Degrees of freedom correction (default)
+- Summary of ellipse shape + % of points enclosed
 
-# 📚 Reference: Yuill, R. S. (1971). The Standard Deviational Ellipse: An Updated Tool for Spatial Description.
-# Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
+📚 **Reference**: Yuill, R. S. (1971). *The Standard Deviational Ellipse: An Updated Tool for Spatial Description*.  
+Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
 
-# 📖 ArcGIS documentation: https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm
+📖 [ArcGIS documentation on Standard Deviational Ellipses](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)
 
-# --------------------------------------------------------------------------------
-# 🔧 Step-by-Step Instructions
+---
 
-# 1. Load required functions (must be done before anything else!)
+## 🔧 Setup
+
+Before using this tool, you **must** load the required functions.
+
+```r
 # Option 1: If running locally after cloning this repo
 source("SDE_functions.r")
 
 # Option 2: Run directly from GitHub (raw link)
 source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+```
 
-# --------------------------------------------------------------------------------
-# 🛍 Coordinate System Tips
+➡️ [View the SDE_functions.r script on GitHub](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
-# | Your Data Looks Like…                          | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
-# |------------------------------------------------|------------------------------|----------------------------------------------------------|-----------------------------------------------------------------|
-# | Values like -1.3, 36.8                         | Latitude/Longitude (degrees) | Nothing special — default settings will work             | convert_to_sf_utm(df)                                           |
-# | GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | convert_to_sf_utm(my_data)                                     |
-# | X/Y values like 500000, 1000000 (meters)       | Projected (e.g., UTM)        | You must specify the CRS (EPSG code)                     | convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)   |
-# | You’re unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                               |
-# | You want to override auto-detect UTM           | Lat/lon or Projected         | Manually set target_epsg to force your own zone          | convert_to_sf_utm(df, target_epsg = 32633)                      |
+---
 
-# 💡 How to Find EPSG Codes:
-# - Visit https://epsg.io
-# - Use sf::st_crs() on known spatial data
-# - In QGIS: Right-click layer → Properties → CRS
+## 🛍 Coordinate System Tips
 
-# --------------------------------------------------------------------------------
-# 🧪 Simulated Use Case 1: Latitude / Longitude Input
+| Your Data Looks Like…                          | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
+|------------------------------------------------|------------------------------|----------------------------------------------------------|-----------------------------------------------------------------|
+| Values like `-1.3`, `36.8`                     | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
+| GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                   |
+| X/Y values like `500000`, `1000000` (meters)   | Projected (e.g., UTM)        | You **must** specify the CRS (EPSG code)                 | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)` |
+| You're unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                               |
+| You want to override auto-detect UTM           | Lat/lon or Projected         | Manually set `target_epsg` to force your own zone        | `convert_to_sf_utm(df, target_epsg = 32633)`                    |
 
-# Simulate points with lat/lon
+💡 **How to Find EPSG Codes:**
+- Visit [epsg.io](https://epsg.io)
+- Use `sf::st_crs()` on known spatial data
+- In QGIS: Right-click layer → Properties → CRS
+
+---
+
+## 🧪 Simulated Use Case 1: Latitude / Longitude Input
+
+```r
+# Simulate lat/lon points
 set.seed(123)
 latlon_df <- data.frame(
   lon = rnorm(200, mean = 36.8, sd = 0.1),
@@ -53,7 +62,7 @@ latlon_df <- data.frame(
 # Convert to sf + auto-detect UTM
 sf_latlon <- convert_to_sf_utm(latlon_df)
 
-# Run SDE function
+# Generate SDEs
 sde1 <- generate_sde_ellipses(
   sf_latlon,
   group_vars = "Group",
@@ -72,11 +81,15 @@ ggplot() +
   scale_color_brewer(palette = "Dark2", name = "Group") +
   theme_minimal() +
   labs(title = "Lat/Lon Input Example", subtitle = "Auto-detected UTM projection")
+```
 
-# --------------------------------------------------------------------------------
-# 🧪 Simulated Use Case 2: UTM Input
+---
 
-# Simulate projected points
+## 🧪 Simulated Use Case 2: UTM Input
+
+```r
+# Simulate UTM-style projected points
+set.seed(456)
 utm_df <- data.frame(
   X = rnorm(150, mean = 500000, sd = 800),
   Y = rnorm(150, mean = 9850000, sd = 1200),
@@ -86,7 +99,7 @@ utm_df <- data.frame(
 # Convert to sf using known EPSG (UTM Zone 36N = EPSG:32636)
 sf_utm <- convert_to_sf_utm(utm_df, input_crs = 32636, target_epsg = 32636)
 
-# Run SDE
+# Generate SDEs
 sde2 <- generate_sde_ellipses(
   sf_utm,
   group_vars = "Type",
@@ -102,23 +115,32 @@ ggplot() +
   scale_fill_brewer(palette = "Pastel2", name = "SD Level") +
   scale_color_brewer(palette = "Set1", name = "Type") +
   theme_minimal() +
-  labs(title = "UTM Input Example", subtitle = "User-defined projection (EPSG 32636)")
+  labs(title = "UTM Input Example", subtitle = "EPSG 32636 projection")
+```
 
-# --------------------------------------------------------------------------------
-# 🔬 What This Calculates
+---
 
-# The Standard Deviational Ellipse (SDE) summarizes spatial distribution of points by showing:
-# - Directional trend (via ellipse orientation)
-# - Dispersion along major and minor axes
-# - % of points enclosed at each SD level (~63% at 1 SD, ~98% at 2 SD, ~99.9% at 3 SD)
+## 🔬 What This Calculates
 
-# The ellipse is calculated using the eigenvectors of the covariance matrix of X and Y.
+The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.
 
-# --------------------------------------------------------------------------------
-# ✅ To Do
-# - [ ] Add Shiny app version
-# - [ ] Integrate shapefile upload option
-# - [ ] Validate against ArcGIS or QGIS SDE tools
+Each ellipse covers approximately:
+- ~63% of points at 1 standard deviation
+- ~98% at 2 standard deviations
+- ~99.9% at 3 standard deviations
 
-# --------------------------------------------------------------------------------
-# 🧪 Created for internal spatial analysis. Feel free to fork or adapt!
+Assumes approximately normal distribution in 2D space.
+
+Ellipse orientation is defined by the **eigenvector** of the covariance matrix of X and Y — this shows the direction of greatest spread (i.e., the major axis of the ellipse).
+
+---
+
+## ✅ To Do
+
+- [ ] Add Shiny app version
+- [ ] Integrate real shapefile upload
+- [ ] Validate against ArcGIS/QGIS
+
+---
+
+🧪 Created for internal spatial analysis. Feel free to fork or adapt.
