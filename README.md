@@ -54,17 +54,23 @@ df <- data.frame(
 
 ### 3. Convert to sf object and UTM projection
 
-We need to convert to an `sf` (simple feature), which tells R that the data are spatial (and special too!!) - meaning that the coordinates represent geometry. The `sf` object includes CRS metadata. We'll also convert to UTMs so that distances and areas are straightforward in their calculations (UTMs are metric). Use `convert_to_sf_utm()` to convert the data to a spatial object and project it to UTM automatically:
+### 3. Convert to sf object and UTM projection
+
+We need to convert to an `sf` (simple feature), which tells R that the data are spatial (and special too) — meaning that the coordinates represent geometry. The `sf` object includes CRS metadata. We'll also convert to UTM so that distances and areas are straightforward in their calculations (UTMs are metric).
+
+Use `convert_to_sf_utm()` to convert the data to a spatial object and project it to UTM automatically:
 
 ```r
 sf_pts_proj <- convert_to_sf_utm(df)
 ```
 
-If your data is already projected, you can manually specify the EPSG code:
+If your data are **already projected** (i.e., not in latitude/longitude), you must **explicitly specify both the input and target EPSG codes**:
 
 ```r
 sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 ```
+
+> ⚠️ **Note:** The function cannot auto-detect the UTM zone from already projected coordinates. You must supply `target_epsg` when `input_crs` is not lat/lon.
 
 ---
 
