@@ -8,133 +8,169 @@ It supports:
 - Degrees of freedom correction (default)
 - Summary of ellipse shape + % of points enclosed
 
-📚 **Reference**: Yuill, R. S. (1971). *The Standard Deviational Ellipse: An Updated Tool for Spatial Description*.  
-Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
-
+For background, see:  
+📚 Reference: Yuill, R. S. (1971). *The Standard Deviational Ellipse: An Updated Tool for Spatial Description*. Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885  
 📖 [ArcGIS documentation on Standard Deviational Ellipses](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)
 
 ---
 
-## 🔧 Setup
+## 🔧 Workflow Steps
 
-Before using this tool, you **must** load the required functions.
+### 1. Load the required functions
 
-You can access the functions here at [SDE functions](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
+You must first load the R functions before any other step will work:
+
+```r
+# Option 1: If running locally after cloning this repo
+source("SDE_functions.r")
+
+# Option 2: Run directly from GitHub (raw link)
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+```
 
 ➡️ [View the SDE_functions.r script on GitHub](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
+
+---
+
+### 2. Load your data
+
+Your dataset must:
+- Include **geographic coordinates**
+  - Either longitude/latitude (in degrees), or
+  - Projected X/Y values (e.g., UTM in meters)
+- Include a **grouping variable** (e.g., Region, Year, etc.) if you want to compare SDEs between subsets.
+
+Example:
+
+```r
+df <- data.frame(
+  Longitude = c(36.8, 36.9, 36.7),
+  Latitude = c(-1.3, -1.4, -1.2),
+  Region = c("A", "A", "B")
+)
+```
+
+---
+
+### 3. Convert to sf object and UTM projection
+
+Use `convert_to_sf_utm()` to convert the data to a spatial object and project it to UTM automatically:
+
+```r
+sf_pts_proj <- convert_to_sf_utm(df)
+```
+
+If your data is already projected, you can manually specify the EPSG code:
+
+```r
+sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
+```
+
+---
+
+### 4. Generate the SDEs
+
+Use the main function to create ellipses for each group:
+
+```r
+sde_sf <- generate_sde_ellipses(
+  sf_pts_proj,
+  group_vars = "Region",
+  sd_levels = c(1, 2, 3),
+  min_points = 5,
+  sqrt2_scaling = TRUE,
+  dof_correction = TRUE,
+  weight_col = NULL
+)
+```
+
+---
+
+### 5. Inspect and summarize results
+
+Print the results or summarize how many points fall within each SD level:
+
+```r
+print(sde_sf)
+aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
+```
+
+---
+
+### 6. Export to shapefile (optional)
+
+If desired, export your SDEs to a shapefile:
+
+```r
+sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
+```
+
+---
+
+## 🧪 Simulated Example 1: Latitude/Longitude Data
+
+```r
+set.seed(123)
+n <- 100
+df <- data.frame(
+  Longitude = runif(n, min = 36.6, max = 37.0),
+  Latitude = runif(n, min = -1.5, max = -1.0),
+  Region = sample(c("East", "West"), n, replace = TRUE)
+)
+
+sf_pts_proj <- convert_to_sf_utm(df)
+sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
+print(sde_sf)
+```
+
+---
+
+## 🧪 Simulated Example 2: UTM Projected X/Y Data
+
+```r
+set.seed(456)
+n <- 100
+df <- data.frame(
+  X = rnorm(n, mean = 500000, sd = 10000),
+  Y = rnorm(n, mean = 990000, sd = 12000),
+  Region = sample(c("North", "South"), n, replace = TRUE)
+)
+
+sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
+sde_sf <- generate_sde_ellipses(sf_pts_proj, group_vars = "Region")
+print(sde_sf)
+```
 
 ---
 
 ## 🛍 Coordinate System Tips
 
 | Your Data Looks Like…                          | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
-|------------------------------------------------|------------------------------|----------------------------------------------------------|-----------------------------------------------------------------|
+|------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
 | Values like `-1.3`, `36.8`                     | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
 | GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                   |
 | X/Y values like `500000`, `1000000` (meters)   | Projected (e.g., UTM)        | You **must** specify the CRS (EPSG code)                 | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)` |
-| You're unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                               |
+| You're unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                                |
 | You want to override auto-detect UTM           | Lat/lon or Projected         | Manually set `target_epsg` to force your own zone        | `convert_to_sf_utm(df, target_epsg = 32633)`                    |
 
-💡 **How to Find EPSG Codes:**
+**💡 How to Find EPSG Codes:**
 - Visit [epsg.io](https://epsg.io)
 - Use `sf::st_crs()` on known spatial data
 - In QGIS: Right-click layer → Properties → CRS
 
 ---
 
-## 🧪 Simulated Use Case 1: Latitude / Longitude Input
-
-```r
-# Simulate lat/lon points
-set.seed(123)
-latlon_df <- data.frame(
-  lon = rnorm(200, mean = 36.8, sd = 0.1),
-  lat = rnorm(200, mean = -1.3, sd = 0.1),
-  Group = rep(c("ZoneA", "ZoneB"), each = 100)
-)
-
-# Convert to sf + auto-detect UTM
-sf_latlon <- convert_to_sf_utm(latlon_df)
-
-# Generate SDEs
-sde1 <- generate_sde_ellipses(
-  sf_latlon,
-  group_vars = "Group",
-  sd_levels = c(1, 2, 3),
-  min_points = 5
-)
-
-# Plot
-library(ggplot2)
-library(sf)
-
-ggplot() +
-  geom_sf(data = sde1, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
-  geom_sf(data = sf_latlon, aes(color = Group), size = 1.2) +
-  scale_fill_brewer(palette = "Set2", name = "SD Level") +
-  scale_color_brewer(palette = "Dark2", name = "Group") +
-  theme_minimal() +
-  labs(title = "Lat/Lon Input Example", subtitle = "Auto-detected UTM projection")
-```
-
----
-
-## 🧪 Simulated Use Case 2: UTM Input
-
-```r
-# Simulate UTM-style projected points
-set.seed(456)
-utm_df <- data.frame(
-  X = rnorm(150, mean = 500000, sd = 800),
-  Y = rnorm(150, mean = 9850000, sd = 1200),
-  Type = rep(c("West", "East", "Central"), each = 50)
-)
-
-# Convert to sf using known EPSG (UTM Zone 36N = EPSG:32636)
-sf_utm <- convert_to_sf_utm(utm_df, input_crs = 32636, target_epsg = 32636)
-
-# Generate SDEs
-sde2 <- generate_sde_ellipses(
-  sf_utm,
-  group_vars = "Type",
-  sd_levels = c(1, 2),
-  sqrt2_scaling = TRUE,
-  dof_correction = TRUE
-)
-
-# Plot
-ggplot() +
-  geom_sf(data = sde2, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
-  geom_sf(data = sf_utm, aes(color = Type), size = 1.2) +
-  scale_fill_brewer(palette = "Pastel2", name = "SD Level") +
-  scale_color_brewer(palette = "Set1", name = "Type") +
-  theme_minimal() +
-  labs(title = "UTM Input Example", subtitle = "EPSG 32636 projection")
-```
-
----
-
 ## 🔬 What This Calculates
 
-The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.
-
+The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.  
 Each ellipse covers approximately:
-- ~63% of points at 1 standard deviation
-- ~98% at 2 standard deviations
-- ~99.9% at 3 standard deviations
-
+- **~63%** of points at 1 standard deviation
+- **~98%** at 2 standard deviations
+- **~99.9%** at 3 standard deviations  
 Assumes approximately normal distribution in 2D space.
 
 Ellipse orientation is defined by the **eigenvector** of the covariance matrix of X and Y — this shows the direction of greatest spread (i.e., the major axis of the ellipse).
 
 ---
 
-## ✅ To Do
-
-- [ ] Add Shiny app version
-- [ ] Integrate real shapefile upload
-- [ ] Validate against ArcGIS/QGIS
-
----
-
-🧪 Created for internal spatial analysis. Feel free to fork or adapt.
+🧪 Created for internal spatial analysis. Feel free to fork or adapt!
