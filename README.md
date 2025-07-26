@@ -244,10 +244,13 @@ west <- data.frame(
 )
 
 # Combine the two
-df <- rbind(east, west)
+df3 <- rbind(east, west)
+
+# what do my data look like?
+head(df3)
 
 # Convert to spatial object with UTM projection
-sf_pts_proj <- convert_to_sf_utm(df)
+sf_pts_proj <- convert_to_sf_utm(df3)
 
 # Generate weighted SDEs
 sde_sf <- generate_sde_ellipses(
