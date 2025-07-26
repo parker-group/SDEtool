@@ -9,7 +9,7 @@ It supports:
 - Summary of ellipse shape + % of points enclosed
 
 For background, see:  
-📚 Reference:Yuill, R. S. (1971). The Standard Deviational Ellipse: An Updated Tool for Spatial Description. Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
+📚 Reference: Yuill, R. S. (1971). *The Standard Deviational Ellipse: An Updated Tool for Spatial Description*. Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885
 
 📖 [ArcGIS documentation on Standard Deviational Ellipses](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/h-how-directional-distribution-standard-deviationa.htm)
 
@@ -34,7 +34,6 @@ source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_function
 ### 2. Generate synthetic test data
 
 ```r
-
 ### creating 2 'groups' of points. Group 1 will have Region = SimRegion1; Group 2 will have Region = SimRegion2
 ### we will later create SDEs by Region
 set.seed(42)
@@ -68,7 +67,7 @@ sf_pts_proj <- convert_to_sf_utm(df)
 ### 4. Generate SDEs
 
 ```r
-#note that you can modify different components of the function here
+# note that you can modify different components of the function here
 sde_sf <- generate_sde_ellipses(
   sf_pts_proj,
   group_vars = "Region",
@@ -94,17 +93,18 @@ aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
 ---
 
 ### 6. Plot the ellipses and points on a map
+
 ```r
-#load necessary packages
+# load necessary packages
 library(ggplot2)
 library(sf)
 
-#ggplot function to make the map
+# ggplot function to make the map
 ## this map will be in UTMs. It would be possible to convert back to WGS84
 ggplot() +
-  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), 
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)),
           alpha = 0.3, color = "black", linetype = "solid") +
-  geom_sf(data = sf_pts_proj, aes(color = Region), 
+  geom_sf(data = sf_pts_proj, aes(color = Region),
           size = 1.2, alpha = 0.8) +
   scale_fill_brewer(palette = "Set2", name = "SD Level") +
   scale_color_brewer(palette = "Dark2", name = "Region") +
@@ -126,6 +126,18 @@ sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
 
 ---
 
+## 🛍 Coordinate System Tips
+
+| Your Data Looks Like…                          | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
+|------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
+| Values like `-1.3`, `36.8`                      | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
+| GPS data from phone/app                         | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                   |
+| X/Y values like `500000`, `1000000` (meters)    | Projected (e.g., UTM)        | You **must** specify the CRS (EPSG code)                 | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)` |
+| You're unsure what system your data is in       | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                                |
+| You want to override auto-detect UTM            | Lat/lon or Projected         | Manually set `target_epsg` to force your own zone        | `convert_to_sf_utm(df, target_epsg = 32633)`                    |
+
+---
+
 ## 🔬 What This Calculates
 
 The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.  
@@ -144,6 +156,11 @@ Ellipse orientation is defined by the **eigenvector** of the covariance matrix o
 - [ ] Add Shiny app version
 - [ ] Integrate real shapefile upload
 - [ ] Validate against other GIS packages
+
+---
+
+🧪 Created for internal spatial analysis. Feel free to fork or adapt!
+
 
 ---
 
