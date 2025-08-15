@@ -65,7 +65,7 @@ Your dataset must:
 - Include **geographic coordinates**
   - Either longitude/latitude (in degrees), or
   - Projected X/Y values (e.g., UTM in meters)
-- Optionally include a **grouping variable** (e.g., Region, Year, or group_var) if you want to compute SDEs for different subsets.
+- Include a **grouping variable** (e.g., Region, Year, or group_var) if you want to compute SDEs for different subsets. If not, you'll need to set this option to "NULL" later.
 
 The tool will automatically try to detect latitude and longitude columns using common names. Specifically, it searches for:
 
@@ -114,7 +114,7 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 
 ### 4. Generate the SDEs
 
-Use the main function to create ellipses for each group. Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.
+Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.*
 
 ```r
 sde_sf <- generate_sde_ellipses(
