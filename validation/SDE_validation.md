@@ -43,34 +43,34 @@ The panels below use the exact figures generated from the validation runs. Blue 
 ### R-only comparison (ArcGIS preset vs CrimeStat preset vs Probabilistic)
 *These show our three internal approaches on the same points.*
 
-![1× compare: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_1x_Ronly.png)  
+![1× compare: ArcGIS vs CrimeStat vs Prob](figures/Compare_1x_Ronly.png)  
 **Figure A.** 1× SDE comparison. ArcGIS preset (blue), CrimeStat preset (red dashed), Probabilistic 68.27% (green dot-dash).
 
-![2× compare: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_2x_Ronly.png)  
+![2× compare: ArcGIS vs CrimeStat vs Prob](figures/Compare_2x_Ronly.png)  
 **Figure B.** 2× SDE comparison. ArcGIS preset (blue), CrimeStat preset (red dashed), Probabilistic 95% (green dot-dash).
 
 ### R-tool (ArcGIS preset) vs ArcGIS shapefiles
 *Demonstrates byte-level agreement in degrees.*
 
-![ArcGIS 1×: R-tool vs ArcGIS](validation/figures/ArcGIS_R_vs_ArcRef_1x.png)  
+![ArcGIS 1×: R-tool vs ArcGIS](figures/ArcGIS_R_vs_ArcRef_1x.png)  
 **Figure C.** 1×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.
 
-![ArcGIS 2×: R-tool vs ArcGIS](validation/figures/ArcGIS_R_vs_ArcRef_2x.png)  
+![ArcGIS 2×: R-tool vs ArcGIS](figures/ArcGIS_R_vs_ArcRef_2x.png)  
 **Figure D.** 2×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.
 
 ### R-tool (CrimeStat preset) vs CrimeStat shapefiles
 *Close geometric agreement in degrees; small residual differences expected.*
 
-![CrimeStat 1×: R-tool vs CrimeStat](validation/figures/CrimeStat_R_vs_CSRef_1x.png)  
+![CrimeStat 1×: R-tool vs CrimeStat](figures/CrimeStat_R_vs_CSRef_1x.png)  
 **Figure E.** 1×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.996.
 
-![CrimeStat 2×: R-tool vs CrimeStat](validation/figures/CrimeStat_R_vs_CSRef_2x.png)  
+![CrimeStat 2×: R-tool vs CrimeStat](figures/CrimeStat_R_vs_CSRef_2x.png)  
 **Figure F.** 2×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.994.
 
 ### Probabilistic coverage targets (MVN)
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
 
-![Probabilistic ellipses](validation/figures/Prob_ellipses.png)  
+![Probabilistic ellipses](figures/Prob_ellipses.png)  
 **Figure G.** Target coverages 68.27%, 95%, 99.73%. In a single dataset, empirical % inside varies around the targets; across repeated MVN samples, long-run coverage tends to the targets.
 
 ---
