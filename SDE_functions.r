@@ -103,13 +103,25 @@ build_ellipse <- function(x, y, sd = 1, n_points = 100, sqrt2_scaling = TRUE) {
   if (any(!is.finite(cov_mat)) || any(diag(cov_mat) == 0)) return(NULL)
   eig <- eigen(cov_mat)
   center <- c(mean(x), mean(y))
-  circle <- rbind(cos(seq(0, 2 * pi, length.out = n_points)), sin(seq(0, 2 * pi, length.out = n_points)))
-  axes <- diag(sqrt(eig$values))
-  scale_factor <- if (sqrt2_scaling) sqrt(2) else 1
-  shape <- scale_factor * sd * eig$vectors %*% axes %*% circle
-  coords <- sweep(t(shape), 2, center, "+")
-  coords <- rbind(coords, coords[1, , drop = FALSE])
-  st_polygon(list(coords))
+# angle sequence WITHOUT 2*pi to avoid duplicating the first point
+t <- seq(0, 2 * pi, length.out = n_points + 1)
+t <- t[-length(t)]
+
+circle <- rbind(cos(t), sin(t))
+axes <- diag(sqrt(eig$values))
+scale_factor <- if (sqrt2_scaling) sqrt(2) else 1
+shape <- scale_factor * sd * eig$vectors %*% axes %*% circle
+
+coords <- sweep(t(shape), 2, center, "+")
+# close ring exactly once
+coords <- rbind(coords, coords[1, , drop = FALSE])
+
+# optional: remove any accidental duplicates (numerical) before closing
+ring_no_close <- coords[-nrow(coords), , drop = FALSE]
+ring_no_dup   <- ring_no_close[!duplicated(round(ring_no_close, 12)), , drop = FALSE]
+coords        <- rbind(ring_no_dup, ring_no_dup[1, , drop = FALSE])
+
+st_polygon(list(coords))
 }
 
 # Main ellipse generator
@@ -133,27 +145,36 @@ generate_sde_ellipses <- function(
   return_metric = FALSE,
   coverage = c(0.6827, 0.95, 0.9973)  # used in mode="prob"
 ) {
+
+  # Allow no-group usage
+  if (is.null(group_vars) || length(group_vars) == 0) {
+    sf_data$.__grp__ <- 1L
+    group_vars <- ".__grp__"
+  }
+
   stopifnot(inherits(sf_data, "sf"))
   if (!all(group_vars %in% names(sf_data))) {
     stop("❌ group_vars not found in data.")
   }
 
+  # Optional: validate flags
+  compute_in <- match.arg(compute_in, c("input","working"))
+  output_crs <- match.arg(output_crs, c("input","working"))
+
   # Choose the working layer
   work <- sf_data
   if (compute_in == "working") {
     if (is.null(working_crs) || identical(working_crs, "auto_utm")) {
-      # reuse your helper to infer UTM when input is WGS84
-      coords <- st_coordinates(sf_data)
-      # find lon/lat columns (from sf geometry)
+      coords <- sf::st_coordinates(sf_data)
       lon <- coords[,1]; lat <- coords[,2]
-      epsg <- auto_utm(lon, lat)
-      working_crs <- epsg
+      working_crs <- auto_utm(lon, lat)
     }
-    work <- st_transform(sf_data, working_crs)
+    work <- sf::st_transform(sf_data, working_crs)
   }
 
-  # After computation, decide which CRS to return as the active geometry
-  to_return_crs <- if (output_crs == "working") st_crs(work) else st_crs(sf_data)
+  # Decide which CRS the returned active geometry will use
+  to_return_crs <- if (output_crs == "working") sf::st_crs(work) else sf::st_crs(sf_data)
+
 
   coords <- st_coordinates(work)
   df <- work |> st_drop_geometry()
@@ -210,14 +231,24 @@ generate_sde_ellipses <- function(
       minor <- scl * sqrt(eig$values[2])
 
       # build ellipse polygon in the working CRS
-      t <- seq(0, 2*pi, length.out = 200)
-      circ <- rbind(cos(t)*major, sin(t)*minor)
-      R <- matrix(c(cos(orient_rad_east), -sin(orient_rad_east),
-                    sin(orient_rad_east),  cos(orient_rad_east)), nrow = 2, byrow = TRUE)
-      shape <- R %*% circ
-      coords_poly <- sweep(t(shape), 2, center, "+")
-      coords_poly <- rbind(coords_poly, coords_poly[1, , drop = FALSE])
-      sfc_poly <- st_sfc(st_polygon(list(coords_poly)), crs = st_crs(work))
+  t <- seq(0, 2*pi, length.out = 200 + 1)
+  t <- t[-length(t)]  # drop 2*pi to avoid duplicating the first point
+
+  circ <- rbind(cos(t)*major, sin(t)*minor)
+  R <- matrix(c(cos(orient_rad_east), -sin(orient_rad_east),
+              sin(orient_rad_east),  cos(orient_rad_east)), nrow = 2, byrow = TRUE)
+  shape <- R %*% circ
+  coords_poly <- sweep(t(shape), 2, center, "+")
+
+  # close ring exactly once
+  coords_poly <- rbind(coords_poly, coords_poly[1, , drop = FALSE])
+
+  # (optional) numeric de-dup to satisfy s2 on some platforms
+  ring_nc   <- coords_poly[-nrow(coords_poly), , drop = FALSE]
+  ring_nodu <- ring_nc[!duplicated(round(ring_nc, 12)), , drop = FALSE]
+  coords_poly <- rbind(ring_nodu, ring_nodu[1, , drop = FALSE])
+
+  sfc_poly <- sf::st_sfc(sf::st_polygon(list(coords_poly)), crs = sf::st_crs(work))
 
       # reproject active geometry if needed
       geom_main <- if (output_crs == "working") sfc_poly else st_transform(sfc_poly, st_crs(sf_data))
@@ -270,4 +301,5 @@ generate_sde_ellipses <- function(
   st_crs(out) <- to_return_crs
   out
 }
+
 
