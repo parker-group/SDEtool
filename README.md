@@ -360,6 +360,37 @@ Ellipse orientation is defined by the **eigenvector** of the covariance matrix o
 
 ---
 
+## ✅ Validation (summary)
+
+We validated SDEtool against **ArcGIS** and **CrimeStat** on the same dataset (*Lepto*, n = 24, WGS84). Ellipses were generated in degrees to match desktop tool geometry. Full details and reproducible comparisons live in [`validation/SDE_validation.md`](validation/SDE_validation.md).
+
+**Key results (geometry parity):**
+- **ArcGIS preset (R) vs ArcGIS**: IoU ≈ **0.9999** at 1× and 2×; angles and centroids essentially identical.
+- **CrimeStat preset (R) vs CrimeStat**: IoU ≈ **0.996** (1×) and **0.994** (2×); small expected differences from df handling and export quirks.
+- **Probabilistic (MVN)**: matches target coverages in expectation using `sqrt(qchisq(p, df=2))`; shown for transparency, not for byte-matching.
+
+**Overlays (WGS84):** Blue = **R-tool**, Red dashed = **reference** (ArcGIS or CrimeStat); points in black.
+
+**ArcGIS — R-tool vs ArcGIS reference**
+  
+![ArcGIS 1× overlay](validation/figures/ArcGIS_R_vs_ArcRef_1x.png)  
+![ArcGIS 2× overlay](validation/figures/ArcGIS_R_vs_ArcRef_2x.png)
+
+**CrimeStat — R-tool vs CrimeStat reference**
+  
+![CrimeStat 1× overlay](validation/figures/CrimeStat_R_vs_CSRef_1x.png)  
+![CrimeStat 2× overlay](validation/figures/CrimeStat_R_vs_CSRef_2x.png)
+
+**R-only comparison (modes)**
+  
+![1×: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_1x_Ronly.png)  
+![2×: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_2x_Ronly.png)
+
+**Probabilistic coverage targets**
+  
+![Probabilistic ellipses](validation/figures/Prob_ellipses.png)
+
+---
 ### 💡 Motivation
 
 There are several other tools that support Standard Deviational Ellipse (SDE) calculations, including:
