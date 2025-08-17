@@ -88,7 +88,7 @@ df <- data.frame(
 
 ---
 
-### 3. Convert to sf object and UTM projection
+### 3. Make it spatial (sf) — choose WGS84 or UTM
 
 We need to convert to an `sf` (simple feature), which tells R that the data are spatial (and special too) — meaning that the coordinates represent geometry. The `sf` object includes CRS metadata. We'll also convert to UTM so that distances and areas are straightforward in their calculations (UTMs are metric).
 
@@ -106,8 +106,7 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 
 ---
 
-### 4. Generate the SDEs
-
+### 4. Generate SDEs (modes: arcgis, crimestat, prob)
 Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.*
 
 ```r
@@ -119,8 +118,6 @@ sde_sf <- generate_sde_ellipses(
   sqrt2_scaling  = TRUE,
   dof_correction = TRUE,
   weight_col     = NULL,
-
-  # New (optional) controls:
   mode           = "arcgis",   # "arcgis", "crimestat", or "prob"
   compute_in     = "working",  # if using UTM; set "input" to stay in EPSG:4326
   output_crs     = "working"   # set "input" to keep EPSG:4326 geometry
@@ -133,7 +130,7 @@ sde_sf <- generate_sde_ellipses(
 
 ---
 
-### 5. Inspect and summarize results
+### 5. Inspect, summarize, and plot results
 
 Print the results or summarize how many points fall within each SD level:
 ```r
@@ -159,7 +156,7 @@ ggplot() +
 
 ---
 
-### 6. Export to shapefile (optional)
+### 6. Export results (shapefile/CRS options)
 
 If desired, export your SDEs to a shapefile:
 ```r
@@ -333,7 +330,7 @@ ggplot() +
 ```
 ---
 
-## 🛍 Coordinate System Tips
+## 🛍 CRS tips (WGS84 vs UTM)
 
 | Your Data Look Like…                           | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
 |------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
@@ -350,7 +347,7 @@ ggplot() +
 
 ---
 
-## 🔬 What This Calculates
+## 🔬 What the SDE computes
 
 The Standard Deviational Ellipse (SDE) summarizes the spatial distribution of points by showing the directional trend and spread.  
 Each ellipse covers approximately:
