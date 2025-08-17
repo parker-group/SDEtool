@@ -330,15 +330,16 @@ ggplot() +
 ```
 ---
 
-## 🛍 CRS tips (WGS84 vs UTM)
+## 🛍 Coordinate System Tips
 
-| Your Data Look Like…                           | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
-|------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
-| Values like `-1.3`, `36.8`                     | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
-| GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                    |
-| X/Y values like `500000`, `1000000` (meters)   | Projected (e.g., UTM)        | You **must** specify the CRS (EPSG code)                 | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)` |
-| You're unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                                |
-| You want to override auto-detect UTM           | Lat/lon or Projected         | Manually set `target_epsg` to force your own zone        | `convert_to_sf_utm(df, target_epsg = 32633)`                    |
+| Situation                                  | Coordinate Type               | What You Should Do                                           | Example Call                                                                 |
+|--------------------------------------------|-------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------------------|
+| Coordinates like `-1.3`, `36.8`            | Latitude/Longitude (degrees)  | Use defaults; UTM can be added later if you want meters      | `convert_to_sf_utm(df)`                                                      |
+| GPS data from a phone/app                  | Latitude/Longitude (degrees)  | Defaults fine; auto-detect UTM if you want metric units      | `convert_to_sf_utm(my_data)`                                                 |
+| X/Y values like `500000`, `1000000` (m)    | Projected (e.g., UTM)         | **Specify** the CRS (EPSG) explicitly                        | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)`              |
+| Not sure what CRS you have                 | Unknown                       | Check in GIS or ask provider                                 | —                                                                             |
+| You want desktop parity (ArcGIS/CrimeStat) | Degrees (WGS84)               | Keep geometry in degrees for comparisons                     | pass an EPSG:4326 `sf` to `generate_sde_ellipses(..., compute_in="input", output_crs="input")` |
+| You want meters by default                 | UTM (meters)                  | Project to UTM for metric areas/axes                         | `convert_to_sf_utm(df)` or set `working_crs = <EPSG>` in your call            |
 
 **💡 How to Find EPSG Codes:**
 - Visit [epsg.io](https://epsg.io)
@@ -360,35 +361,21 @@ Ellipse orientation is defined by the **eigenvector** of the covariance matrix o
 
 ---
 
-## ✅ Validation (summary)
+## ✅ Validation
 
-We validated SDEtool against **ArcGIS** and **CrimeStat** on the same dataset (*Lepto*, n = 24, WGS84). Ellipses were generated in degrees to match desktop tool geometry. Full details and reproducible comparisons live in [`validation/SDE_validation.md`](validation/SDE_validation.md).
+We validate SDEtool against **ArcGIS** and **CrimeStat** on the same dataset (Lepto, n = 24, WGS84). The full, reproducible workflow (metrics, overlays, notes on angle/df/scale conventions, and the probabilistic option) is documented here:
 
-**Key results (geometry parity):**
-- **ArcGIS preset (R) vs ArcGIS**: IoU ≈ **0.9999** at 1× and 2×; angles and centroids essentially identical.
-- **CrimeStat preset (R) vs CrimeStat**: IoU ≈ **0.996** (1×) and **0.994** (2×); small expected differences from df handling and export quirks.
-- **Probabilistic (MVN)**: matches target coverages in expectation using `sqrt(qchisq(p, df=2))`; shown for transparency, not for byte-matching.
+➡️ **Full report:** [validation/SDE_validation.md](validation/SDE_validation.md)
 
-**Overlays (WGS84):** Blue = **R-tool**, Red dashed = **reference** (ArcGIS or CrimeStat); points in black.
+**What you’ll see in the report (briefly):**
+- **ArcGIS preset (R)** vs **ArcGIS**: near–byte-for-byte geometric parity in degrees.
+- **CrimeStat preset (R)** vs **CrimeStat**: very close agreement; small diffs expected from df/export details.
+- **Probabilistic (MVN)**: coverage-target ellipses shown for transparency.
 
-**ArcGIS — R-tool vs ArcGIS reference**
-  
-![ArcGIS 1× overlay](validation/figures/ArcGIS_R_vs_ArcRef_1x.png)  
-![ArcGIS 2× overlay](validation/figures/ArcGIS_R_vs_ArcRef_2x.png)
+**Example overlay (WGS84):** R-tool (blue solid) vs ArcGIS reference (red dashed)
 
-**CrimeStat — R-tool vs CrimeStat reference**
-  
-![CrimeStat 1× overlay](validation/figures/CrimeStat_R_vs_CSRef_1x.png)  
-![CrimeStat 2× overlay](validation/figures/CrimeStat_R_vs_CSRef_2x.png)
+![ArcGIS 1× overlay](validation/figures/ArcGIS_R_vs_ArcRef_1x.png)
 
-**R-only comparison (modes)**
-  
-![1×: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_1x_Ronly.png)  
-![2×: ArcGIS vs CrimeStat vs Prob](validation/figures/Compare_2x_Ronly.png)
-
-**Probabilistic coverage targets**
-  
-![Probabilistic ellipses](validation/figures/Prob_ellipses.png)
 
 ---
 ### 💡 Motivation
