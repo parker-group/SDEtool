@@ -65,24 +65,32 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 ### R-tool (ArcGIS preset in SDEtool) vs ArcGIS shapefiles
 *Demonstrates byte-level agreement in degrees.*
 
-<img src="figures/ArcGIS_R_vs_ArcRef_1x.png" alt="ArcGIS 1×: R-tool vs ArcGIS" width="720" />
-  
-**Figure C.** 1×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.
+<table>
+  <tr>
+    <td><img src="figures/ArcGIS_R_vs_ArcRef_1x.png" alt="ArcGIS 1×: R-tool vs ArcGIS" width="100%"/></td>
+    <td><img src="figures/ArcGIS_R_vs_ArcRef_2x.png" alt="ArcGIS 2×: R-tool vs ArcGIS" width="100%"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Figure C.</b> 1×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.</td>
+    <td align="center"><b>Figure D.</b> 2×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.</td>
+  </tr>
+</table>
 
-<img src="figures/ArcGIS_R_vs_ArcRef_2x.png" alt="ArcGIS 2×: R-tool vs ArcGIS" width="720" />
-  
-**Figure D.** 2×: R-tool (blue solid) vs ArcGIS reference (red dashed). IoU ≈ 0.9999.
 
 ### R-tool (CrimeStat preset in SDEtool) vs CrimeStat shapefiles
 *Close geometric agreement in degrees; small residual differences expected.*
 
-<img src="figures/CrimeStat_R_vs_CSRef_1x.png" alt="CrimeStat 1×: R-tool vs CrimeStat" width="720" />
-  
-**Figure E.** 1×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.996.
+<table>
+  <tr>
+    <td><img src="figures/CrimeStat_R_vs_CSRef_1x.png" alt="CrimeStat 1×: R-tool vs CrimeStat" width="100%"/></td>
+    <td><img src="figures/CrimeStat_R_vs_CSRef_2x.png" alt="CrimeStat 2×: R-tool vs CrimeStat" width="100%"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Figure E.</b> 1×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.996.</td>
+    <td align="center"><b>Figure F.</b> 2×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.994.</td>
+  </tr>
+</table>
 
-<img src="figures/CrimeStat_R_vs_CSRef_2x.png" alt="CrimeStat 2×: R-tool vs CrimeStat" width="720" />
-  
-**Figure F.** 2×: R-tool (blue solid) vs CrimeStat reference (red dashed). IoU ≈ 0.994.
 
 ### Probabilistic coverage targets (MVN)
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
