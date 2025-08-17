@@ -58,20 +58,6 @@ source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_function
 ➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
 
-## Key CRS Settings: Compute vs Output
-
-`compute_in` and `output_crs` control where the math happens and how results are returned.
-
-- `compute_in`: where the math happens.
-  - `"input"` = use the CRS of your `sf` data as-is.
-  - `"working"` = transform first to `working_crs` (e.g., UTM) and compute in that CRS.
-- `output_crs`: the CRS of the returned ellipse geometry (`"input"` or `"working"`).
-
-**Rule of thumb**
-- For ArcGIS/CrimeStat parity in degrees: supply EPSG:4326 data, use `compute_in="input", output_crs="input"`.
-- For metric axes/areas: use `compute_in="working"` with `working_crs` set to a projected CRS (e.g., auto-UTM). Choose `output_crs` based on how you plan to map/export.
-
-
 ---
 
 ### 2. Load your data
@@ -144,6 +130,23 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 ### 4. Generate SDEs (modes: arcgis, crimestat, prob)
 Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data. If you don't have a grouping variable, then you'll need to do this or you'll get an error message.*
 
+#### Key CRS Settings: Compute vs Output
+
+These three arguments control where the math happens and how results are returned:
+
+- `compute_in`: where the math happens.  
+  - `"input"` = use the CRS of your `sf` data as-is.  
+  - `"working"` = transform first to `working_crs` (e.g., UTM) and compute in that CRS.  
+- `working_crs`: which CRS to use when `compute_in = "working"` (e.g., `"auto_utm"` or a numeric EPSG).  
+- `output_crs`: the CRS of the returned ellipse geometry (`"input"` or `"working"`).
+
+**Rule of thumb**  
+- For ArcGIS/CrimeStat parity in degrees: supply EPSG:4326 data, use `compute_in="input", output_crs="input"`.  
+- For metric axes/areas: use `compute_in="working"` with a projected `working_crs`. Then pick `output_crs` depending on how you plan to map/export.  
+
+---
+
+Now, here’s a typical call:
 ```r
 sde_sf <- generate_sde_ellipses(
   sf_data        = sf_pts_proj,   # sf POINTS
@@ -155,11 +158,7 @@ sde_sf <- generate_sde_ellipses(
   output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
-> **CRS settings:**  
-> `compute_in` = where the math happens (**"input"** = use current CRS; **"working"** = transform first),  
-> `working_crs` = the CRS to transform to when `compute_in="working"` (e.g., `"auto_utm"` or an EPSG),  
-> `output_crs` = the CRS you want back for the ellipse geometry (**"input"** or **"working"**).
-> 
+
 - **Modes:** 
   - `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
   - `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
