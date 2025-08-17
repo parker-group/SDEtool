@@ -151,5 +151,5 @@ generate_sde_ellipses(
 
 ## See also
 
-- Validation results and methodology: `validation/SDE_validation.md`  
-- Minimal README usage example that links to this page.
+- Validation results and methodology: [`validation/SDE_validation.md`](https://github.com/parker-group/SDEtool/blob/main/validation/SDE_validation.md)  
+- Minimal [README](https://github.com/parker-group/SDEtool/blob/main/README.md) usage example that links to this page.
