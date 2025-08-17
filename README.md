@@ -162,6 +162,7 @@ aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
 library(ggplot2)
 library(sf)
 
+#### IF you have a group variable (here named "Region")
 ggplot() +
   geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
   geom_sf(data = sf_pts_proj, aes(color = Region), size = 1.2) +
@@ -173,6 +174,20 @@ ggplot() +
     subtitle = "With Input Points Overlaid",
     x = "Easting (m)", y = "Northing (m)"
   )
+
+#### IF you DO NOT have a group variable
+ggplot() +
+  geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
+  geom_sf(data = sf_pts_proj, color = "black", size = 1.2) +
+  scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  theme_minimal() +
+  labs(
+    title = "Standard Deviational Ellipses",
+    subtitle = "All points (no grouping)",
+    x = "Easting (m)", y = "Northing (m)"
+  )
+
+
 ```
 
 ---
