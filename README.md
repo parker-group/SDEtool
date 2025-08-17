@@ -117,7 +117,7 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 
 > 💡 **Note (degrees-first path):** For parity with ArcGIS/CrimeStat geometry, pass an EPSG:4326 `sf` to `generate_sde_ellipses()` with `compute_in = "input"` and `output_crs = "input"`. The UTM workflow above is useful when you prefer metric areas/axes by default.
 
-
+---
 ### 4. Generate SDEs (modes: arcgis, crimestat, prob)
 Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.*
 
