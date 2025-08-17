@@ -144,9 +144,6 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 - **CRS tags:** ArcGIS shapefiles include a WGS84 `.prj`; CrimeStat outputs required assigning **EPSG:4326** during plotting.
 - **Attribute names:** Shapefile DBF fields are limited to **≤10 characters** and may truncate (e.g., `sd_level → sd_levl`). SDEtool keeps long names in R objects and maps to DBF-safe names on export.
 
-**Reproducibility**
-- Figures were regenerated via `validation/make_validation_plots.R`.
-- Running the script in a fresh session reproduces the numbers/plots shown above given the same inputs and presets.
 
 ---
 
