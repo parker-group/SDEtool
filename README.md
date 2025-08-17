@@ -172,7 +172,7 @@ ggplot() +
   labs(
     title = "Standard Deviational Ellipses",
     subtitle = "With Input Points Overlaid",
-    x = "Easting (m)", y = "Northing (m)"
+    x = "Easting", y = "Northing"
   )
 
 #### IF you DO NOT have a group variable
@@ -184,7 +184,7 @@ ggplot() +
   labs(
     title = "Standard Deviational Ellipses",
     subtitle = "All points (no grouping)",
-    x = "Easting (m)", y = "Northing (m)"
+    x = "Easting", y = "Northing"
   )
 
 
