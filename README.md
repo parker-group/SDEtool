@@ -44,7 +44,8 @@ For background, see:
 
 Just want to get some points and SDEs on a plot in R. Get started with this, no data needed:
 
-# 1) Load functions
+```r
+# Step 1: Load functions
 source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
 
 # 2) Minimal data WITH a grouping column (>=5 pts per group)
@@ -68,7 +69,7 @@ sde_sf <- generate_sde_ellipses(
 print(sde_sf)
 plot(sf::st_geometry(sde_sf))
 points(sf::st_coordinates(sf::st_geometry(sf_pts)), pch = 20)
-
+```
 ---
 
 
