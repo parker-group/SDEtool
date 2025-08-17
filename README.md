@@ -57,6 +57,21 @@ source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_function
 
 ➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
+
+## Key CRS Settings: Compute vs Output
+
+`compute_in` and `output_crs` control where the math happens and how results are returned.
+
+- `compute_in`: where the math happens.
+  - `"input"` = use the CRS of your `sf` data as-is.
+  - `"working"` = transform first to `working_crs` (e.g., UTM) and compute in that CRS.
+- `output_crs`: the CRS of the returned ellipse geometry (`"input"` or `"working"`).
+
+**Rule of thumb**
+- For ArcGIS/CrimeStat parity in degrees: supply EPSG:4326 data, use `compute_in="input", output_crs="input"`.
+- For metric axes/areas: use `compute_in="working"` with `working_crs` set to a projected CRS (e.g., auto-UTM). Choose `output_crs` based on how you plan to map/export.
+
+
 ---
 
 ### 2. Load your data
