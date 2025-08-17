@@ -363,7 +363,7 @@ Ellipse orientation is defined by the **eigenvector** of the covariance matrix o
 
 ## ✅ Validation
 
-We validate SDEtool against **ArcGIS** and **CrimeStat** on the same dataset (Lepto, n = 24, WGS84). The full, reproducible workflow (metrics, overlays, notes on angle/df/scale conventions, and the probabilistic option) is documented here:
+We validate SDEtool against **ArcGIS** and **CrimeStat** on the same dataset (Lepto, n = 24, WGS84). We will do some more validations on simulated and other real-world data over time. You can find details here:
 
 ➡️ **Full report:** [validation/SDE_validation.md](validation/SDE_validation.md)
 
