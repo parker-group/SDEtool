@@ -99,9 +99,14 @@ Convert to an **sf** object, then either keep **WGS84 (degrees)** for ArcGIS/Cri
 **Option A — keep WGS84 (degrees): best for matching desktop tools**
 
 ```r
-# auto-detect lon/lat using your helper, then make sf in EPSG:4326
-ll <- detect_latlon(df)
-sf_pts <- sf::st_as_sf(df, coords = c(ll$lon, ll$lat), crs = 4326, remove = FALSE)
+# auto-detect lon/lat using the SDEtool helper, then make sf in EPSG:4326
+coord_cols <- detect_latlon(df) 
+sf_pts <- sf::st_as_sf(
+  df,
+  coords = c(coord_cols$lon, coord_cols$lat),  # x = lon, y = lat
+  crs = 4326,
+  remove = FALSE
+)
 ```
 
 Use later with: `compute_in = "input", output_crs = "input"`.
