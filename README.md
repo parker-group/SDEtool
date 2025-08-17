@@ -123,22 +123,24 @@ Use the main function to create ellipses for each group. *Note that you can set 
 
 ```r
 sde_sf <- generate_sde_ellipses(
-  sf_pts_proj,
-  group_vars     = "Region",
+  sf_data        = sf_pts_proj,   # sf POINTS
+  group_vars     = "Region",      # or NULL for all points
   sd_levels      = c(1, 2, 3),
-  min_points     = 5,
-  sqrt2_scaling  = TRUE,
-  dof_correction = TRUE,
-  weight_col     = NULL,
-  mode           = "arcgis",   # "arcgis", "crimestat", or "prob"
-  compute_in     = "working",  # if using UTM; set "input" to stay in EPSG:4326
-  output_crs     = "working"   # set "input" to keep EPSG:4326 geometry
+  mode           = "arcgis",      # "arcgis" | "crimestat" | "prob"
+  compute_in     = "working",     # "input" (degrees) | "working" (meters)
+  working_crs    = "auto_utm",    # e.g., 32648 or "auto_utm"
+  output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
 
-- `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
-- `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
-- `mode = "prob"` → coverage targets (MVN) with `scale = sqrt(qchisq(p, df=2))`, `df = n−1`. Use e.g. `coverage = c(0.6827, 0.95, 0.9973)`.
+- **Modes:** 
+  - `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
+  - `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
+  - `mode = "prob"` → coverage targets (MVN) with `scale = sqrt(qchisq(p, df=2))`, `df = n−1`. Use e.g. `coverage = c(0.6827, 0.95, 0.9973)`.
+- **CRS tip:** Use `compute_in="input"` for byte-match parity in degrees; `compute_in="working"` + UTM for metric axes/areas.
+
+➡️ **Full parameter reference:** [`docs/generate_sde_ellipses.md`](docs/generate_sde_ellipses.md)
+
 
 ---
 
