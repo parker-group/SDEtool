@@ -167,7 +167,7 @@ sde_sf <- generate_sde_ellipses(
   output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
-#### Argument reference (quick summary)
+#### Argument reference (quick summary) ➡️ **Full parameter reference:** [`generate_sde_ellipses.md`](generate_sde_ellipses.md)
 
 | Argument      | Type        | Default       | Purpose |
 |---------------|-------------|---------------|---------|
