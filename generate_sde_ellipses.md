@@ -142,7 +142,7 @@ generate_sde_ellipses(
 
 ## Notes & edge cases
 
-- Groups with `< min_points` are skipped (message printed).  
+- Groups with `< min_points` are skipped (message printed). Default is 5 min_points; it seems silly to work with less than 5. 
 - Zero-variance groups (coincident points) do not produce ellipses.  
 - For shapefile export, consider mapping attribute names to ≤10 chars (DBF-safe).  
 - Angles are reported as `north_cw` in summaries; internal math uses `east_ccw` (converted for reporting).
