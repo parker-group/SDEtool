@@ -1,6 +1,6 @@
 # 🧪 Standard Deviational Ellipse (SDE) Validation
 
-This page validates the **R-based SDEtool** against **ArcGIS** and **CrimeStat** using the same dataset (**Lepto**, *n = 24*, WGS84). We report geometric overlap (IoU), angles, centers, and % point coverage. All angles reported here use **clockwise-from-north** (`north_cw`) to match ArcGIS/CrimeStat UI.
+This page shows some validation work, comparing this **R-based SDEtool** against **ArcGIS** and **CrimeStat**, for now using the same dataset (**Lepto**, *n = 24*, WGS84). In future iterations we'll validate against other datasets as well. We report geometric overlap (IoU), angles, centers, and % point coverage. All angles reported here use **clockwise-from-north** (`north_cw`) to match ArcGIS/CrimeStat UI.
 
 ---
 
