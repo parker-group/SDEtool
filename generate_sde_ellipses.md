@@ -1,8 +1,6 @@
 # `generate_sde_ellipses()` — Full Reference
 
-Dictionary-style reference for every argument, return field, and common recipes for **SDEtool**.
-
-> Tip: Keep the README minimal and link here. This page is safe to open in GitHub (renders tables and code blocks correctly).
+Dictionary for every argument, return field, and common recipes for **SDEtool**.
 
 ---
 
