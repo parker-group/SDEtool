@@ -42,7 +42,7 @@ For background, see:
 
 ## ⚡ Quickstart
 
-Just want to get some points and SDEs on a plot in R. Get started with this, no data needed:
+Just want to get some points and SDEs on a plot in R? Get started with this, no data needed:
 
 ```r
 # Step 1: Load functions
