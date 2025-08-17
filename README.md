@@ -27,9 +27,10 @@ For background, see:
 - [Simulated Example 2: UTM Projected X/Y Data](#-simulated-example-2-utm-projected-xy-data)
 - [Simulated Example 3: Latitude/Longitude Data with a count of people/samples from each location, to be used as a weight](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
 - [Coordinate System Tips](#-coordinate-system-tips)
-- [What This Calculates](#-what-this-calculates)
-- [Validation](validation/SDE_validation.md)
+- [What the SDE computes](#-what-the-sde-computes)
+- [Validation](#-validation)
 - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
+
 
 ---
 
