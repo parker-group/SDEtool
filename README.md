@@ -137,9 +137,8 @@ sde_sf <- generate_sde_ellipses(
   - `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
   - `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
   - `mode = "prob"` → coverage targets (MVN) with `scale = sqrt(qchisq(p, df=2))`, `df = n−1`. Use e.g. `coverage = c(0.6827, 0.95, 0.9973)`.
-- **CRS tip:** Use `compute_in="input"` for byte-match parity in degrees; `compute_in="working"` + UTM for metric axes/areas.
-
-➡️ **Full parameter reference:** [`docs/generate_sde_ellipses.md`](docs/generate_sde_ellipses.md)
+- **CRS tip:** For **geometric parity with ArcGIS/CrimeStat shapefiles**, use `compute_in="input"` **and** `output_crs="input"` (WGS84 degrees). For **metric axes/areas**, use `compute_in="working"` with `working_crs="auto_utm"` (or a specific EPSG).
+➡️ **Full parameter reference:** [`generate_sde_ellipses.md`](generate_sde_ellipses.md)
 
 
 ---
