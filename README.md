@@ -158,7 +158,19 @@ sde_sf <- generate_sde_ellipses(
   output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
+#### Argument reference (quick summary)
 
+| Argument      | Type        | Default       | Purpose |
+|---------------|-------------|---------------|---------|
+| `sf_data`     | `sf` object | —             | Input spatial points |
+| `group_vars`  | `character` | `NULL`        | Grouping variable(s) |
+| `sd_levels`   | `numeric`   | `c(1,2,3)`    | Which SD ellipses to compute |
+| `mode`        | `character` | `"arcgis"`    | Choose algorithm (`"arcgis"`, `"crimestat"`, `"prob"`) |
+| `compute_in`  | `character` | `"working"`   | Where computation occurs (`"input"` vs `"working"`) |
+| `working_crs` | `string/int`| `"auto_utm"`  | CRS used if `compute_in="working"` |
+| `output_crs`  | `character` | `"working"`   | CRS of returned ellipses |
+
+---
 - **Modes:** 
   - `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
   - `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
