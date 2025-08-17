@@ -140,7 +140,11 @@ sde_sf <- generate_sde_ellipses(
   output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
-
+> **CRS settings (plain English):**  
+> `compute_in` = where the math happens (**"input"** = use current CRS; **"working"** = transform first),  
+> `working_crs` = the CRS to transform to when `compute_in="working"` (e.g., `"auto_utm"` or an EPSG),  
+> `output_crs` = the CRS you want back for the ellipse geometry (**"input"** or **"working"**).
+> 
 - **Modes:** 
   - `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
   - `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
