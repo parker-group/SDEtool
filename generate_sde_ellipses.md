@@ -77,6 +77,26 @@ sde_sf <- generate_sde_ellipses(
 
 ---
 
+### CRS settings — exact behavior
+
+- `compute_in="input"`: compute in the CRS of `sf_data`. `working_crs` is ignored; no transform.
+- `compute_in="working"`: compute in `working_crs`. Transform happens **only** if `working_crs` ≠ `st_crs(sf_data)`.
+
+**Examples**
+
+| `st_crs(sf_data)` | `compute_in` | `working_crs`   | What happens                    |
+|-------------------|--------------|------------------|----------------------------------|
+| EPSG:4326 (deg)   | `"input"`    | (ignored)        | Compute in degrees (no transform) |
+| EPSG:4326 (deg)   | `"working"`  | `"auto_utm"`     | Transform to UTM, compute in meters |
+| EPSG:4326 (deg)   | `"working"`  | `4326`           | Compute in degrees (no transform) |
+| EPSG:32611 (UTM)  | `"input"`    | (ignored)        | Compute in meters (no transform)  |
+| EPSG:32611 (UTM)  | `"working"`  | `"auto_utm"`     | Stays in 32611 (identity)         |
+| EPSG:32611 (UTM)  | `"working"`  | `4326`           | Transform to degrees, compute there |
+
+- `output_crs="input"` returns geometry in the original CRS.
+- `output_crs="working"` returns geometry in the working CRS.
+- `return_metric=TRUE` is useful when you **compute in UTM** but want to **return degrees** (adds a `geom_metric` column in meters).
+---
 ## Output columns (key fields)
 
 - `sd_level` (for non-`prob`) / `target_coverage` (for `prob`)  
