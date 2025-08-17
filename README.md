@@ -135,7 +135,9 @@ sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 
 ---
 ### 4. Generate SDEs (modes: arcgis, crimestat, prob)
+
 Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data. If you don't have a grouping variable, then you'll need to do this or you'll get an error message.*
+
 ---
 #### Key CRS Settings: Compute vs Output
 
