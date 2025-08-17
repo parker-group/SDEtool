@@ -12,6 +12,7 @@ It supports:
 - Degrees of freedom correction (default)
 - Summary of ellipse shape + % of points enclosed
 - Comparison of point patterns (i.e. SDEs) across groups
+- Settings to mimic ArcGis or CrimeStat, if you prefer their approaches or just want to compare this tool to those tools.
 
 For background, see:  
 📚 Reference: Yuill, R. S. (1971). *The Standard Deviational Ellipse: An Updated Tool for Spatial Description*. Geografiska Annaler: Series B, Human Geography, 53(1), 28–39. https://doi.org/10.2307/490885  
