@@ -4,7 +4,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/parker-group/SDEtool/blob/main/LICENSE)
 
-
 This R tool computes **Standard Deviational Ellipses (SDEs)** for spatial point data grouped by user-defined variables.  
 It supports:
 - Multiple standard deviation levels (e.g., 1, 2, 3 SD)
@@ -25,12 +24,11 @@ For background, see:
 - [Workflow Steps](#-workflow-steps)
 - [Simulated Example 1: Latitude/Longitude Data](#-simulated-example-1-latitudelongitude-data)
 - [Simulated Example 2: UTM Projected X/Y Data](#-simulated-example-2-utm-projected-xy-data)
-- [Simulated Example 3: Latitude/Longitude Data with Weights](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
+- [Simulated Example 3: Latitude/Longitude Data with a count of people/samples from each location, to be used as a weight](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
 - [Coordinate System Tips](#-coordinate-system-tips)
 - [What This Calculates](#-what-this-calculates)
 - [Validation](validation/SDE_validation.md)
 - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
-
 
 ---
 
@@ -46,14 +44,14 @@ There are **three ways** to do this:
   You can literally go to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
 
 - 💻 **Option 2: Source the file locally** (if you've cloned or downloaded this repo)  
-  ```r
-  source("SDE_functions.r")
-  ```
+```r
+source("SDE_functions.r")
+```
 
 - 🌐 **Option 3: Source directly from GitHub**  
-  ```r
-  source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
-  ```
+```r
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+```
 
 ➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
 
@@ -68,7 +66,6 @@ Your dataset must:
 - Include a **grouping variable** (e.g., Region, Year, or group_var) if you want to compute SDEs for different subsets. If not, you'll need to set this option to "NULL" later.
 
 The tool will automatically try to detect latitude and longitude columns using common names. Specifically, it searches for:
-
 ```r
 lat_candidates <- c("latitude", "Latitude", "lat", "Lat", "y", "Y")
 lon_candidates <- c("longitude", "Longitude", "lon", "Lon", "x", "X")
@@ -81,11 +78,10 @@ If you're grouping by a variable (e.g., region, year, or category), name it or t
 If your data have repeats per location, you can either run the tool with multiple rows having the same location - or - you could generate a dataset that has one row per location and a count of people or samples from each location. Make sure you clearly name that "count" variable as well, and you can use that as a `weight` in the SDE function (`weight_col = count`). 
 
 Example:
-
 ```r
 df <- data.frame(
   longitude = c(36.8, 36.9, 36.7),
-  latitude = c(-1.3, -1.4, -1.2),
+  latitude  = c(-1.3, -1.4, -1.2),
   group_var = c("A", "A", "B")
 )
 ```
@@ -97,18 +93,16 @@ df <- data.frame(
 We need to convert to an `sf` (simple feature), which tells R that the data are spatial (and special too) — meaning that the coordinates represent geometry. The `sf` object includes CRS metadata. We'll also convert to UTM so that distances and areas are straightforward in their calculations (UTMs are metric).
 
 Use `convert_to_sf_utm()` to convert the data to a spatial object and project it to UTM automatically:
-
 ```r
 sf_pts_proj <- convert_to_sf_utm(df)
 ```
 
 If your data are **already projected** (i.e., not in latitude/longitude), you must **explicitly specify both the input and target EPSG codes**:
-
 ```r
 sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 ```
 
-> ⚠️ **Note:** The function cannot auto-detect the UTM zone from already projected coordinates. You must supply `target_epsg` when `input_crs` is not lat/lon.
+> 💡 **Note (optional degrees-first path):** If you want parity with ArcGIS/CrimeStat geometry for comparison, you can keep everything in **WGS84 degrees** by passing an EPSG:4326 `sf` into `generate_sde_ellipses()` with `compute_in = "input"` and `output_crs = "input"`. The UTM workflow above remains useful when you prefer metric areas/axes by default.
 
 ---
 
@@ -119,21 +113,29 @@ Use the main function to create ellipses for each group. *Note that you can set 
 ```r
 sde_sf <- generate_sde_ellipses(
   sf_pts_proj,
-  group_vars = "Region",
-  sd_levels = c(1, 2, 3),
-  min_points = 5,
-  sqrt2_scaling = TRUE,
+  group_vars     = "Region",
+  sd_levels      = c(1, 2, 3),
+  min_points     = 5,
+  sqrt2_scaling  = TRUE,
   dof_correction = TRUE,
-  weight_col = NULL
+  weight_col     = NULL,
+
+  # New (optional) controls:
+  mode           = "arcgis",   # "arcgis", "crimestat", or "prob"
+  compute_in     = "working",  # if using UTM; set "input" to stay in EPSG:4326
+  output_crs     = "working"   # set "input" to keep EPSG:4326 geometry
 )
 ```
+
+- `mode = "arcgis"` → df = n, scale = k·√2, angle basis = north_cw.  
+- `mode = "crimestat"` → df = n−2, scale = k·√2, angle basis = north_cw.  
+- `mode = "prob"` → coverage targets (MVN) with `scale = sqrt(qchisq(p, df=2))`, `df = n−1`. Use e.g. `coverage = c(0.6827, 0.95, 0.9973)`.
 
 ---
 
 ### 5. Inspect and summarize results
 
 Print the results or summarize how many points fall within each SD level:
-
 ```r
 print(sde_sf)
 aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
@@ -144,8 +146,9 @@ library(sf)
 
 ggplot() +
   geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
-  geom_sf(data = sf_pts_proj, color = "red", size = 1.5) +
+  geom_sf(data = sf_pts_proj, aes(color = Region), size = 1.2) +
   scale_fill_brewer(palette = "Set2", name = "SD Level") +
+  scale_color_brewer(palette = "Dark2", name = "Region") +
   theme_minimal() +
   labs(
     title = "Standard Deviational Ellipses",
@@ -159,7 +162,6 @@ ggplot() +
 ### 6. Export to shapefile (optional)
 
 If desired, export your SDEs to a shapefile:
-
 ```r
 #this will export a .shp file in the UTMs we are using here. You will need to update the folder location
 sf::st_write(sde_sf, "SDE_ellipses.shp", delete_dsn = TRUE)
@@ -328,8 +330,6 @@ ggplot() +
     subtitle = "Point size represents 'count' used as weight",
     x = "Easting", y = "Northing"
   )
-
-
 ```
 ---
 
@@ -338,7 +338,7 @@ ggplot() +
 | Your Data Look Like…                           | Coordinate Type              | What You Should Do                                       | Example Call                                                    |
 |------------------------------------------------|------------------------------|----------------------------------------------------------|------------------------------------------------------------------|
 | Values like `-1.3`, `36.8`                     | Latitude/Longitude (degrees) | Nothing special — default settings will work             | `convert_to_sf_utm(df)`                                         |
-| GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                   |
+| GPS data from phone/app                        | Latitude/Longitude (degrees) | Default is fine — UTM zone will be auto-detected         | `convert_to_sf_utm(my_data)`                                    |
 | X/Y values like `500000`, `1000000` (meters)   | Projected (e.g., UTM)        | You **must** specify the CRS (EPSG code)                 | `convert_to_sf_utm(df, input_crs = 32632, target_epsg = 32632)` |
 | You're unsure what system your data is in      | 🤷 Unknown                   | Ask the data provider or check in GIS software           | —                                                                |
 | You want to override auto-detect UTM           | Lat/lon or Projected         | Manually set `target_epsg` to force your own zone        | `convert_to_sf_utm(df, target_epsg = 32633)`                    |
@@ -376,5 +376,3 @@ These tools are well established and widely used within desktop GIS environments
 This R-based tool was created to provide a fully **open-source**, **script-based**, and **reproducible** alternative tailored for R users. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analyses.  
 
 I developed this tool after encountering limitations with plugin-based approaches and needing a workflow that could be easily validated, customized, and shared in R. Feel free to fork or adapt!
-
----
