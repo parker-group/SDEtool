@@ -97,11 +97,14 @@ We need to convert your data to an **sf** object, which stores geometry and CRS 
 Convert to an **sf** object, then either keep **WGS84 (degrees)** for ArcGIS/CrimeStat parity, or **project to UTM (meters)** if you want metric axes/areas.
 
 **Option A — keep WGS84 (degrees): best for matching desktop tools**
+
 ```r
-sf_pts_proj <- convert_to_sf_utm(df, input_crs = 4326, target_epsg = 4326)
-# or equivalently:
-# pts <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326)
+# auto-detect lon/lat using your helper, then make sf in EPSG:4326
+ll <- detect_latlon(df)
+sf_pts <- sf::st_as_sf(df, coords = c(ll$lon, ll$lat), crs = 4326, remove = FALSE)
 ```
+
+Use later with: `compute_in = "input", output_crs = "input"`.
 
 **Option B — switch to UTM (meters): best when you want metric units**  
 *(auto-picks a UTM zone if your input is lat/lon)*
