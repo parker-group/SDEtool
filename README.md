@@ -23,6 +23,12 @@ For background, see:
 ## 📂 Table of Contents
 
 - [Workflow Steps](#-workflow-steps)
+  - [1. Load the required functions](#1-load-the-required-functions)
+  - [2. Load your data](#2-load-your-data)
+  - [3. Make it spatial (sf) — choose WGS84 or UTM](#3-make-it-spatial-sf--choose-wgs84-or-utm)
+  - [4. Generate SDEs (modes: arcgis, crimestat, prob)](#4-generate-sdes-modes-arcgis-crimestat-prob)
+  - [5. Inspect, summarize, and plot results](#5-inspect-summarize-and-plot-results)
+  - [6. Export results (shapefile/CRS options)](#6-export-results-shapefilecrs-options)
 - [Simulated Example 1: Latitude/Longitude Data](#-simulated-example-1-latitudelongitude-data)
 - [Simulated Example 2: UTM Projected X/Y Data](#-simulated-example-2-utm-projected-xy-data)
 - [Simulated Example 3: Latitude/Longitude Data with a count of people/samples from each location, to be used as a weight](#-simulated-example-3-latitudelongitude-data-with-a-count-of-peoplesamples-from-each-location-to-be-used-as-a-weight)
@@ -30,6 +36,7 @@ For background, see:
 - [What the SDE computes](#-what-the-sde-computes)
 - [Validation](#-validation)
 - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
+
 
 
 ---
