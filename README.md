@@ -21,7 +21,7 @@ For background, see:
 ---
 
 ## 📂 Table of Contents
-
+- [⚡ Quickstart](#-quickstart)
 - [Workflow Steps](#-workflow-steps)
   - [1. Load the required functions](#1-load-the-required-functions)
   - [2. Load your data](#2-load-your-data)
@@ -38,8 +38,39 @@ For background, see:
 - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
 
 
+---
+
+## ⚡ Quickstart
+
+Just want to get some points and SDEs on a plot in R. Get started with this, no data needed:
+
+# 1) Load functions
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+
+# 2) Minimal data WITH a grouping column (>=5 pts per group)
+set.seed(1)
+df <- data.frame(
+  lon    = c(runif(5, 36.70, 36.90), runif(5, 36.90, 37.10)),
+  lat    = c(runif(5, -1.40, -1.20), runif(5, -1.20, -1.00)),
+  Region = rep(c("A","B"), each = 5)
+)
+
+# 3) Make it spatial (auto-UTM from lon/lat)
+sf_pts <- convert_to_sf_utm(df, input_crs = 4326)
+
+# 4) Generate ellipses (defaults: mode="arcgis", min_points=5, compute_in="working")
+sde_sf <- generate_sde_ellipses(
+  sf_data    = sf_pts,
+  group_vars = "Region"
+)
+
+# 5) Quick look
+print(sde_sf)
+plot(sf::st_geometry(sde_sf))
+points(sf::st_coordinates(sf::st_geometry(sf_pts)), pch = 20)
 
 ---
+
 
 ## 🔧 Workflow Steps
 
