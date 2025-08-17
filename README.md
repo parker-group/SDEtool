@@ -92,32 +92,31 @@ df <- data.frame(
 
 ### 3. Make it spatial (sf) — choose WGS84 or UTM
 
-We need to convert your data to an sf object, which stores geometry and CRS metadata. From there you have two paths: (a) keep WGS84 (EPSG:4326) to compare durians-to-durians with ArcGIS/CrimeStat and produce ellipses in degrees, or (b) project to a metric CRS (e.g., UTM) when you want axis lengths/areas in meters. If your input is lat/lon, this convert_to_sf_utm() function can auto-pick a UTM zone for you; if your input is already projected (say in UTMs), specify its EPSG explicitly. Changing the projection won’t change the ellipse’s shape or orientation; it only changes the units (degrees vs meters) and whether you match desktop tools exactly.
+We need to convert your data to an **sf** object, which stores geometry and CRS metadata. From there you have two paths: **(a) keep WGS84 (EPSG:4326)** to compare durians-to-durians with ArcGIS/CrimeStat and produce ellipses in degrees, or **(b) project to a metric CRS (e.g., UTM)** when you want axis lengths/areas in meters. If your input is lat/lon, `convert_to_sf_utm()` can auto-pick a UTM zone; if your input is already projected (e.g., UTM), specify its EPSG explicitly. Projection doesn’t alter the ellipse’s geometry—just the units and exact ArcGIS/CrimeStat parity.
 
-Convert to an sf object, then either keep WGS84 (degrees) for ArcGIS/CrimeStat parity, or project to UTM (meters) if you want metric axes/areas.
+Convert to an **sf** object, then either keep **WGS84 (degrees)** for ArcGIS/CrimeStat parity, or **project to UTM (meters)** if you want metric axes/areas.
 
-# Option A — keep WGS84 (degrees): best for matching desktop tools:
+**Option A — keep WGS84 (degrees): best for matching desktop tools**
 ```r
-sf_pts_proj <- <- convert_to_sf_utm(df, input_crs = 4326, target_epsg = 4326)
+sf_pts_proj <- convert_to_sf_utm(df, input_crs = 4326, target_epsg = 4326)
 # or equivalently:
 # pts <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326)
 ```
 
-# Option B — switch to UTM (meters): best when you want metric units
-# (auto-picks a UTM zone if your input is lat/lon)
+**Option B — switch to UTM (meters): best when you want metric units**  
+*(auto-picks a UTM zone if your input is lat/lon)*
 ```r
-convert_to_sf_utm(df)
+sf_pts_proj <- convert_to_sf_utm(df)
 ```
 
-# Option C — data already projected (X/Y in meters): you MUST specify both EPSG codes
-*If your input isn’t lat/lon, the helper can’t guess the CRS—set input_crs and target_epsg.*
+**Option C — data already projected (X/Y in meters): you MUST specify both EPSG codes**  
+*If your input isn’t lat/lon, the helper can’t guess the CRS—set `input_crs` and `target_epsg`.*
 ```r
 sf_pts_proj <- convert_to_sf_utm(df, input_crs = 32636, target_epsg = 32636)
 ```
 
-> 💡 **Note (optional degrees-first path):** If you want parity with ArcGIS/CrimeStat geometry for comparison, you can keep everything in **WGS84 degrees** by passing an EPSG:4326 `sf` into `generate_sde_ellipses()` with `compute_in = "input"` and `output_crs = "input"`. The UTM workflow above remains useful when you prefer metric areas/axes by default.
+> 💡 **Note (degrees-first path):** For parity with ArcGIS/CrimeStat geometry, pass an EPSG:4326 `sf` to `generate_sde_ellipses()` with `compute_in = "input"` and `output_crs = "input"`. The UTM workflow above is useful when you prefer metric areas/axes by default.
 
----
 
 ### 4. Generate SDEs (modes: arcgis, crimestat, prob)
 Use the main function to create ellipses for each group. *Note that you can set the group vars to "NULL" if you want SDEs for all points in the data.*
