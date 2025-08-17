@@ -135,12 +135,12 @@ sde_sf <- generate_sde_ellipses(
   group_vars     = "Region",      # or NULL for all points
   sd_levels      = c(1, 2, 3),
   mode           = "arcgis",      # "arcgis" | "crimestat" | "prob"
-  compute_in     = "working",     # "input" (degrees) | "working" (meters)
+  compute_in     = "working",     # where math happens: "input" = use sf_data CRS; "working" = use working_crs (transform only if different)
   working_crs    = "auto_utm",    # e.g., 32648 or "auto_utm"
   output_crs     = "working"      # "input" to keep EPSG:4326 geometry
 )
 ```
-> **CRS settings (plain English):**  
+> **CRS settings:**  
 > `compute_in` = where the math happens (**"input"** = use current CRS; **"working"** = transform first),  
 > `working_crs` = the CRS to transform to when `compute_in="working"` (e.g., `"auto_utm"` or an EPSG),  
 > `output_crs` = the CRS you want back for the ellipse geometry (**"input"** or **"working"**).
