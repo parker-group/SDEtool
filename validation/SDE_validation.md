@@ -11,7 +11,7 @@ This page compares the **R-based SDEtool** against **ArcGIS** and **CrimeStat** 
 
 ## 🔍 Summary of Results
 
-### ArcGIS preset (R) vs ArcGIS shapefiles (1×, 2×)
+### ArcGIS preset (using SDEtool in R) vs ArcGIS shapefiles (1×, 2×)
 *This table compares SDEtool’s `mode="arcgis"` output to ArcGIS output on the same points, for 1× and 2× SD ellipses.*
 
 | Metric | 1 SD | 2 SD |
@@ -27,7 +27,7 @@ This page compares the **R-based SDEtool** against **ArcGIS** and **CrimeStat** 
 
 ---
 
-### CrimeStat preset (R) vs CrimeStat shapefiles (1×, 2×)
+### CrimeStat preset (using SDEtool in R) vs CrimeStat shapefiles (1×, 2×)
 *This table compares SDEtool’s `mode="crimestat"` output to CrimeStat output on the same points, for 1× and 2× SD ellipses.*
 
 | Metric | 1 SD | 2 SD |
