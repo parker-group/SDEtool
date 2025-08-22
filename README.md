@@ -318,7 +318,7 @@ ggplot() +
   labs(
     title = "Simulated Ellipses from Latitude/Longitude Data",
     subtitle = "Projected to UTM automatically",
-    x = "Easting (m)", y = "Northing (m)"
+    x = "Easting", y = "Northing"
   )
 ```
 
@@ -364,7 +364,7 @@ ggplot() +
   labs(
     title = "Simulated Ellipses from Projected UTM Coordinates",
     subtitle = "EPSG:32636",
-    x = "Easting (m)", y = "Northing (m)"
+    x = "Easting", y = "Northing"
   )
 
 ```
