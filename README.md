@@ -46,7 +46,7 @@ Just want to get some points and SDEs on a plot in R? Get started with this, no 
 
 ```r
 # Step 1: Load functions
-source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r")
 
 # 2) Minimal data WITH a grouping column (>=5 pts per group)
 set.seed(1)
@@ -86,15 +86,15 @@ There are **three ways** to do this:
 
 - 💻 **Option 2: Source the file locally** (if you've cloned or downloaded this repo)  
 ```r
-source("SDE_functions.r")
+source("R/SDE_functions.r")
 ```
 
 - 🌐 **Option 3: Source directly from GitHub**  
 ```r
-source("https://raw.githubusercontent.com/parker-group/SDEtool/main/SDE_functions.r")
+source("https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r")
 ```
 
-➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/SDE_functions.r)
+➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/R/SDE_functions.r)
 
 
 ---
