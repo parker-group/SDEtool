@@ -1,0 +1,23 @@
+Package: SDEtool
+Type: Package
+Title: Standard Deviational Ellipse Tools
+Version: 0.1.0
+Authors@R:
+    person(
+      "Daniel",
+      "Parker",
+      role = c("aut","cre")
+    )
+Description:
+    Tools for generating and comparing Standard Deviational Ellipses (SDEs),
+    including ArcGIS-compatible, CrimeStat-compatible, and probabilistic
+    implementations with optional weighting and validation workflows.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    sf,
+    dplyr,
+    purrr
