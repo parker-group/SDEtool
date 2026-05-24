@@ -246,33 +246,6 @@ wcov_2d <- function(X, w) {
 ##### now we move towards generating the SDEs    ########
 #########################################################
 
-# Build an ellipse polygon
-build_ellipse <- function(x, y, sd = 1, n_points = 100, sqrt2_scaling = TRUE) {
-  if (length(x) < 2 || length(y) < 2 || anyNA(x) || anyNA(y)) return(NULL)
-  cov_mat <- stats::cov(cbind(x, y))
-  if (any(!is.finite(cov_mat)) || any(diag(cov_mat) == 0)) return(NULL)
-  eig <- eigen(cov_mat)
-  center <- c(mean(x), mean(y))
-# angle sequence WITHOUT 2*pi to avoid duplicating the first point
-t <- seq(0, 2 * pi, length.out = n_points + 1)
-t <- t[-length(t)]
-
-circle <- rbind(cos(t), sin(t))
-axes <- diag(sqrt(eig$values))
-scale_factor <- if (sqrt2_scaling) sqrt(2) else 1
-shape <- scale_factor * sd * eig$vectors %*% axes %*% circle
-
-coords <- sweep(t(shape), 2, center, "+")
-# close ring exactly once
-coords <- rbind(coords, coords[1, , drop = FALSE])
-
-# optional: remove any accidental duplicates (numerical) before closing
-ring_no_close <- coords[-nrow(coords), , drop = FALSE]
-ring_no_dup   <- ring_no_close[!duplicated(round(ring_no_close, 12)), , drop = FALSE]
-coords        <- rbind(ring_no_dup, ring_no_dup[1, , drop = FALSE])
-
-st_polygon(list(coords))
-}
 
 # Main ellipse generator
 ## note that we're automatically generating 1, 2, and 3 standard deviations
