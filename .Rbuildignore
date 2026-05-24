@@ -1,0 +1,5 @@
+^validation$
+^figures$
+^.*\.png$
+^README\.md$
+^generate_sde_ellipses\.md$
