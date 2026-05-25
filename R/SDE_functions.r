@@ -202,7 +202,7 @@ build_ellipse <- function(x, y, sd = 1, n_points = 100, sqrt2_scaling = TRUE) {
 
 #' Kish effective sample size for nonnegative weights
 #' @param w Numeric weights (NAs allowed; negatives coerced to 0).
-#' @return Scalar n_eff in [0, length(w)].
+#' @return Scalar effective sample size between 0 and `length(w)`.
 #' @keywords internal
 kish_neff <- function(w) {
   stopifnot(is.numeric(w))
