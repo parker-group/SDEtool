@@ -92,12 +92,36 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 </table>
 
 
+### Synthetic rotation validation (CrimeStat vs SDEtool)
+
+To evaluate whether apparent orientation differences reflected true geometric disagreement, an additional synthetic rotated dataset (*n = 50*) was generated and processed independently in CrimeStat and SDEtool (`mode="crimestat"`).
+
+Polygon overlap remained high despite differing reported angle values.
+
+| Metric | Value |
+|---|---:|
+| IoU (overlap) | **0.975** |
+| CrimeStat major axis | **535,076 m** |
+| SDEtool major axis | **535,491 m** |
+| CrimeStat minor axis | **139,119 m** |
+| SDEtool minor axis | **138,325 m** |
+
+Although reported rotation values differed between implementations, geometric agreement remained strong, suggesting that residual differences primarily reflect angle conventions rather than ellipse construction.
+
+<img src="figures/CrimeStat_RotateValidation.png"
+     alt="Synthetic rotation validation"
+     width="720" />
+
+**Figure G.** Synthetic rotation validation (*n = 50*). Synthetic points (gray), CrimeStat ellipse (red), and SDEtool ellipse (blue). Polygon overlap remained high (IoU = 0.975) despite differing reported rotation values.
+
+
+
 ### Probabilistic coverage targets (MVN (multivariate normal))
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
 
 <img src="figures/Prob_ellipses.png" alt="Probabilistic ellipses" width="720" />
   
-**Figure G.** Target coverages 68.27%, 95%, 99.73%. In a single dataset, empirical % inside varies around the targets; across repeated MVN samples, long-run coverage tends to the targets.
+**Figure H.** Target coverages 68.27%, 95%, 99.73%. In a single dataset, empirical % inside varies around the targets; across repeated MVN samples, long-run coverage tends to the targets.
 
 
 ### Repeated MVN simulation validation
@@ -194,4 +218,5 @@ Large deviations between observed and expected coverage may provide a diagnostic
 
 - **ArcGIS parity** is effectively exact when computed **in degrees** with `df = n`, `k·√2`, `north_cw`.  
 - **CrimeStat parity** in degrees is **very close**; meter SDs/areas match CrimeStat text within **~0.03–0.3%** when computed in a projected CRS.  
+- Additional synthetic rotation validation produced **IoU = 0.975**, supporting strong geometric agreement with CrimeStat despite differences in reported angle conventions.
 - A **probabilistic** mode is available to target exact coverages under MVN assumptions; included here for transparency alongside parity checks.
