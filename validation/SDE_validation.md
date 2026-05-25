@@ -138,7 +138,7 @@ To evaluate long-run performance of the probabilistic implementation, we repeate
 
 Observed coverage converged closely to theoretical expectations under the MVN assumption, with mean deviations <0.01 percentage points across all targets.
 The full simulation workflow is available in:
-`validation/probabilistic_validation.r`
+`validation/scripts/probabilistic_validation.r`
 
 ---
 

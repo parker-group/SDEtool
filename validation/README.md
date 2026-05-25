@@ -79,7 +79,7 @@ Evaluates long-run probabilistic coverage behavior under MVN assumptions.
 
 Script:
 
-- `probabilistic_validation.R`
+- `validation/scripts/probabilistic_validation.R`
 
 Output:
 
