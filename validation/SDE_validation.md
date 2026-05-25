@@ -156,15 +156,11 @@ Examples include:
 
 In such cases, the geometric ellipse remains valid as a descriptive representation of spatial dispersion, but empirical point inclusion may differ from theoretical coverage targets.
 
-A possible future extension would evaluate:
+A possible future extension would evaluate **coverage error** as:
 
-\[
-\text{coverage error}
-=
-\text{observed coverage}
--
-\text{target coverage}
-\]
+**coverage error = observed coverage − target coverage**
+
+Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
 
 Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
 
