@@ -63,7 +63,7 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 
 
 ### R-tool (ArcGIS preset in SDEtool) vs ArcGIS shapefiles
-*Demonstrates byte-level agreement in degrees.*
+*Demonstrates near-exact geometric agreement in degrees.*
 
 <table>
   <tr>
@@ -111,7 +111,8 @@ To evaluate long-run performance of the probabilistic implementation, we repeate
 | 99.73% | 99.728% | 0.055% |
 
 Observed coverage converged closely to theoretical expectations under the MVN assumption, with mean deviations <0.01 percentage points across all targets.
-
+The full simulation workflow is available in:
+`validation/probabilistic_validation.r`
 
 ---
 
@@ -138,6 +139,34 @@ Observed coverage converged closely to theoretical expectations under the MVN as
 - **ArcGIS preset:** `df = n`, scale = \(k \cdot \sqrt{2}\), angle basis `north_cw`.
 - **CrimeStat preset:** `df = n - 2`, scale = \(k \cdot \sqrt{2}\), angle basis `north_cw`.
 - **Probabilistic preset:** `df = n - 1`, scale = \(\sqrt{\chi^2_{2}(p)}\) to target coverage \(p\) under bivariate normality; orientations in `east_ccw` internally, converted for reporting as needed.
+
+**Assumptions and interpretation of probabilistic coverage**
+
+The probabilistic implementation (`mode="prob"`) assumes an approximately **bivariate normal (multivariate normal; MVN)** spatial process. Under this assumption, empirical point inclusion converges to theoretical targets (e.g., 68.27%, 95%, 99.73%), as demonstrated above.
+
+The probabilistic implementation permits **anisotropic** spatial processes (elongated or rotated ellipses) through the covariance structure. However, real-world spatial datasets may deviate from MVN assumptions.
+
+Examples include:
+
+- multimodal settlement systems
+- clustered populations
+- linear river or road settlements
+- corridor-constrained movement systems
+- fragmented or frontier populations
+
+In such cases, the geometric ellipse remains valid as a descriptive representation of spatial dispersion, but empirical point inclusion may differ from theoretical coverage targets.
+
+A possible future extension would evaluate:
+
+\[
+\text{coverage error}
+=
+\text{observed coverage}
+-
+\text{target coverage}
+\]
+
+Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
 
 **Ellipse center, axes, and area**
 - **Center:** Sample mean of \(x, y\) in the computation CRS (weighted or unweighted, depending on inputs).
