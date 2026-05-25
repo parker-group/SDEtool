@@ -251,6 +251,50 @@ wcov_2d <- function(X, w) {
 ## note that we're automatically generating 1, 2, and 3 standard deviations
 ## I've set the minimum number of points to 5, less than that seems silly for stats
 #### note that you could also use weighted data here, if you want: weight_col = ??
+
+#' Generate Standard Deviational Ellipses (SDEs)
+#'
+#' Generates Standard Deviational Ellipses (SDEs) from sf point data using
+#' ArcGIS-compatible, CrimeStat-compatible, and probabilistic implementations.
+#'
+#' Supports grouped analyses, weighted analyses, multiple SD levels,
+#' automatic UTM selection, and optional probabilistic coverage targets.
+#'
+#' @param sf_data sf POINT object.
+#' @param group_vars Character vector of grouping variables. Use NULL for all points.
+#' @param sd_levels Standard deviation multipliers (default 1,2,3).
+#' @param min_points Minimum points required per group.
+#' @param sqrt2_scaling Legacy parameter retained for compatibility.
+#' @param dof_correction Legacy parameter retained for compatibility.
+#' @param weight_col Optional weighting variable.
+#' @param mode SDE implementation:
+#'   `"arcgis"`, `"crimestat"`, `"qgis"`, or `"prob"`.
+#' @param compute_in CRS used for calculations:
+#'   `"input"` or `"working"`.
+#' @param working_crs Working CRS EPSG or `"auto_utm"`.
+#' @param output_crs Output CRS:
+#'   `"input"` or `"working"`.
+#' @param return_metric Logical; return metric outputs.
+#' @param coverage Target coverage values used in `mode="prob"`.
+#'
+#' @return sf POLYGON object containing ellipse geometry and associated metrics.
+#'
+#' @examples
+#' set.seed(1)
+#'
+#' df <- data.frame(
+#'   longitude = runif(10,36.7,37.1),
+#'   latitude = runif(10,-1.4,-1.0)
+#' )
+#'
+#' pts <- convert_to_sf_utm(df)
+#'
+#' generate_sde_ellipses(
+#'   pts,
+#'   group_vars = NULL
+#' )
+#'
+#' @export
 generate_sde_ellipses <- function(
   sf_data,
   group_vars = c("Location", "org1_genus"),
