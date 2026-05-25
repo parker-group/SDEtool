@@ -144,7 +144,7 @@ The full simulation workflow is available in:
 
 The probabilistic implementation (`mode="prob"`) assumes an approximately **bivariate normal (multivariate normal; MVN)** spatial process. Under this assumption, empirical point inclusion converges to theoretical targets (e.g., 68.27%, 95%, 99.73%), as demonstrated above.
 
-The probabilistic implementation permits **anisotropic** spatial processes (elongated or rotated ellipses) through the covariance structure. However, real-world spatial datasets may deviate from MVN assumptions.
+The probabilistic implementation permits anisotropic spatial processes (elongated or rotated ellipses) through the covariance structure and therefore does not assume isotropy. However, real-world spatial datasets may deviate from MVN assumptions.
 
 Examples include:
 
