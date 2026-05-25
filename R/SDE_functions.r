@@ -277,7 +277,7 @@ wcov_2d <- function(X, w) {
 #' @param return_metric Logical; return metric outputs.
 #' @param coverage Target coverage values used in `mode="prob"`.
 #'
-#' @return sf POLYGON object containing ellipse geometry and associated metrics.
+#' @return sf POLYGON object containing ellipse geometry and metrics including area, major/minor axes, orientation, coverage statistics, and center coordinates.
 #'
 #' @examples
 #' set.seed(1)
