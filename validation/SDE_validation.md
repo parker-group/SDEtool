@@ -116,7 +116,7 @@ Although reported rotation values differed between implementations, geometric ag
 
 The full workflow used to generate the synthetic dataset, compute IoU, and export the validation figure is available in:
 
-`validation/scripts/cs_rotate_validation.R`
+`validation/scripts/cs_rotate_validation.r`
 
 ### Probabilistic coverage targets (MVN (multivariate normal))
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
@@ -170,6 +170,14 @@ The full simulation workflow is available in:
 
 The probabilistic implementation (`mode="prob"`) assumes an approximately **bivariate normal (multivariate normal; MVN)** spatial process. Under this assumption, empirical point inclusion converges to theoretical targets (e.g., 68.27%, 95%, 99.73%), as demonstrated above.
 
+### Relationship to multivariate covariance ellipses
+
+The probabilistic implementation is mathematically related to **covariance/data ellipses** used in multivariate statistics, principal components analysis (PCA), ordination methods, and confidence ellipse visualization.
+
+In these approaches, ellipse geometry is derived from the covariance matrix through eigen decomposition and scaled according to confidence or probability targets (e.g., χ² quantiles). SDEtool applies an analogous formulation in geographic coordinate space.
+
+This interpretation permits a probabilistic representation of geographic covariance structure under approximate MVN assumptions.
+
 The probabilistic implementation permits anisotropic spatial processes (elongated or rotated ellipses) through the covariance structure and therefore does not assume isotropy. However, real-world spatial datasets may deviate from MVN assumptions.
 
 Examples include:
@@ -182,11 +190,11 @@ Examples include:
 
 In such cases, the geometric ellipse remains valid as a descriptive representation of spatial dispersion, but empirical point inclusion may differ from theoretical coverage targets.
 
-A possible future extension would evaluate **coverage error** as:
+A possible future extension would evaluate **deviation from expected MVN coverage** as:
 
 `coverage error = observed coverage − target coverage`
 
-Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
+Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, corridor-constrained systems, or other departures from MVN assumptions.
 
 
 **Ellipse center, axes, and area**
