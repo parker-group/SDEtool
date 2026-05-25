@@ -172,10 +172,15 @@ Large deviations between observed and expected coverage may provide a diagnostic
 - A point **on the boundary** is counted as **inside** an ellipse.
 
 **Metrics reported**
-- **IoU (Intersection-over-Union):** \(\text{IoU} = \frac{\text{Area}(\mathcal{E}_1 \cap \mathcal{E}_2)}{\text{Area}(\mathcal{E}_1 \cup \mathcal{E}_2)}\), computed on planar geometries in the comparison CRS with `st_make_valid()` safeguards.
-- **Angle Δ:** Absolute difference in reported orientations (in **`north_cw`** degrees for tables).
-- **Centroid distance:** Great-circle approximated by converting degree deltas to meters (≈111 km per degree) for readability.
-- **% inside:** Fraction of points inside each ellipse under the **containment** rule above.
+
+- **IoU (Intersection-over-Union):**  
+
+  `IoU = Area(E1 ∩ E2) / Area(E1 ∪ E2)`
+
+  Computed on planar geometries in the comparison CRS with `st_make_valid()` safeguards.
+- **Angle Δ:** Absolute difference in reported orientations (reported in **`north_cw`** degrees for tables).
+- **Centroid distance:** Great-circle approximation obtained by converting degree deltas to meters (≈111 km per degree) for readability.
+- **% inside:** Fraction of points inside each ellipse under the containment rule above.
 - **Axis deltas (%):** Relative difference in major/minor axis lengths between SDEtool and the reference output.
 
 **Files, attributes, and shapefile limits**
