@@ -96,7 +96,7 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 
 To evaluate whether apparent orientation differences reflected true geometric disagreement, an additional synthetic rotated dataset (*n = 50*) was generated and processed independently in CrimeStat and SDEtool (`mode="crimestat"`).
 
-Polygon overlap remained high despite differing reported angle values.
+Polygon overlap remained high despite small differences in reported angle conventions.
 
 | Metric | Value |
 |---|---:|
@@ -112,11 +112,11 @@ Although reported rotation values differed between implementations, geometric ag
      alt="Synthetic rotation validation"
      width="720" />
 
-**Figure G.** Synthetic rotation validation (*n = 50*). Synthetic points (gray), CrimeStat ellipse (red), and SDEtool ellipse (blue). Polygon overlap remained high (IoU = 0.975) despite differing reported rotation values.
+**Figure G.** Synthetic rotation validation (*n = 50*). Synthetic points (gray), CrimeStat ellipse (red), and SDEtool ellipse (blue). Polygon overlap remained high (IoU = 0.975) despite differing reported rotation values. SDEtool ellipses were computed in projected CRS EPSG:32648 (UTM Zone 48N) and reprojected to WGS84 for display.
 
 The full workflow used to generate the synthetic dataset, compute IoU, and export the validation figure is available in:
 
-`validation/cs_rotate_validation.R`
+`validation/scripts/cs_rotate_validation.R`
 
 ### Probabilistic coverage targets (MVN (multivariate normal))
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*

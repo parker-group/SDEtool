@@ -28,23 +28,47 @@ library(SDEtool)
 #)
 
 ###########################################################
-# Load synthetic rotated data
+# Load synth data
+# Above block documents how data were generated
+# Paths relative to repo root
 ###########################################################
 
-df_test <- read.csv(
-"C:/Users/.../SDEtool/validation/data/Synthetic/rotate_input.csv"
+input_csv <-
+  "validation/data/Synthetic/rotate_input.csv"
+
+crimestat_sde <-
+  "validation/data/CrimeStatValid/Rotate/SDESDECS_Rotate.shp"
+
+output_fig <-
+  "validation/figures/CrimeStat_RotateValidation.png"
+
+###########################################################
+# Read synthetic rotated input points
+###########################################################
+
+df_test <- read.csv(input_csv)
+
+sf_pts <- st_as_sf(
+  df_test,
+  coords = c(
+    "longitude",
+    "latitude"
+  ),
+  crs = 4326
 )
 
-sf_pts <- st_read(
-"C:/Users/.../SDEtool/validation/data/Synthetic/rotate_points.shp"
-)
+###########################################################
+# Project points
+###########################################################
 
-sf_pts_proj <- convert_to_sf_utm(sf_pts)
+sf_pts_proj <- st_transform(
+  sf_pts,
+  32648
+)
 
 ###########################################################
 # Generate SDEtool ellipse
 ###########################################################
-
 
 sde_cs <- generate_sde_ellipses(
   sf_data = sf_pts_proj,
@@ -52,14 +76,17 @@ sde_cs <- generate_sde_ellipses(
   mode = "crimestat"
 )
 
-r_rot <- sde_cs[sde_cs$sd_level == 1, ]
+r_rot <- sde_cs[
+  sde_cs$sd_level == 1,
+]
 
 ###########################################################
 # Load CrimeStat output
 ###########################################################
 
 cs_rot <- st_read(
-"C:/Users/.../SDEtool/validation/data/CrimeStatValid/Rotate/SDESDECS_Rotate.shp"
+  crimestat_sde,
+  quiet = TRUE
 )
 
 st_crs(cs_rot) <- 4326
@@ -70,7 +97,7 @@ cs_rot <- st_transform(
 )
 
 ###########################################################
-# IoU
+# IoU comparison
 ###########################################################
 
 inter_area <- st_area(
@@ -98,14 +125,21 @@ print(iou)
 ###########################################################
 
 png(
-"C:/Users/...SDEtool/validation/figures/CrimeStat_RotateValidation.png",
-width = 2400,
-height = 1800,
-res = 300
+  output_fig,
+  width = 2400,
+  height = 1800,
+  res = 300
 )
 
-cs_rot_ll <- st_transform(cs_rot, 4326)
-r_rot_ll <- st_transform(r_rot, 4326)
+cs_rot_ll <- st_transform(
+  cs_rot,
+  4326
+)
+
+r_rot_ll <- st_transform(
+  r_rot,
+  4326
+)
 
 plot(
   df_test$longitude,
@@ -118,7 +152,9 @@ plot(
   main = "Synthetic Rotation Validation"
 )
 
-grid(col = "grey80")
+grid(
+  col = "grey80"
+)
 
 plot(
   st_geometry(cs_rot_ll),
@@ -146,9 +182,21 @@ legend(
     "red",
     "blue"
   ),
-  pch = c(16, NA, NA),
-  lty = c(NA,1,1),
-  lwd = c(NA,2,2),
+  pch = c(
+    16,
+    NA,
+    NA
+  ),
+  lty = c(
+    NA,
+    1,
+    1
+  ),
+  lwd = c(
+    NA,
+    2,
+    2
+  ),
   bty = "n"
 )
 
