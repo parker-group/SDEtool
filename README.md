@@ -307,9 +307,9 @@ library(sf)
 #### IF you have a group variable (here named "Region")
 ggplot() +
   geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
-  geom_sf(data = sf_pts_proj, aes(color = Region), size = 1.2) +
+  geom_sf(data = sf_pts_proj, aes(color = group_var), size = 1.2) +
   scale_fill_brewer(palette = "Set2", name = "SD Level") +
-  scale_color_brewer(palette = "Dark2", name = "Region") +
+  scale_color_brewer(palette = "Dark2", name = "Group") +
   theme_minimal() +
   labs(
     title = "Standard Deviational Ellipses",
