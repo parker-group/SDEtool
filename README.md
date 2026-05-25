@@ -304,7 +304,7 @@ aggregate(percent_inside ~ sd_level, data = sde_sf, summary)
 library(ggplot2)
 library(sf)
 
-#### IF you have a group variable (here named "Region")
+#### IF you have a group variable (here named "group_var")
 ggplot() +
   geom_sf(data = sde_sf, aes(fill = as.factor(sd_level)), alpha = 0.3, color = "black") +
   geom_sf(data = sf_pts_proj, aes(color = group_var), size = 1.2) +
