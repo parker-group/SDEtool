@@ -169,10 +169,18 @@ If your data have repeats per location, you can either run the tool with multipl
 
 Example:
 ```r
+set.seed(1)
+
 df <- data.frame(
-  longitude = c(36.8, 36.9, 36.7),
-  latitude  = c(-1.3, -1.4, -1.2),
-  group_var = c("A", "A", "B")
+  longitude = c(
+    runif(5, 36.70, 36.90),
+    runif(5, 36.90, 37.10)
+  ),
+  latitude = c(
+    runif(5, -1.40, -1.20),
+    runif(5, -1.20, -1.00)
+  ),
+  group_var = rep(c("A", "B"), each = 5)
 )
 ```
 
@@ -261,7 +269,7 @@ sde_sf <- generate_sde_ellipses(
   output_crs     = "working"
 )
 ```
-```
+
 #### Argument reference (quick summary) ➡️ **Full parameter reference:** [`generate_sde_ellipses.md`](generate_sde_ellipses.md)
 
 | Argument      | Type        | Default       | Purpose |
