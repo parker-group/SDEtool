@@ -92,7 +92,7 @@ Points are black. All figures are in **WGS84 (EPSG:4326)** and framed to the com
 </table>
 
 
-### Probabilistic coverage targets (MVN)
+### Probabilistic coverage targets (MVN (multivariate normal))
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
 
 <img src="figures/Prob_ellipses.png" alt="Probabilistic ellipses" width="720" />
