@@ -2,6 +2,20 @@
 
 This directory contains validation data, figures, and scripts used to evaluate SDEtool against external software and probabilistic expectations.
 
+## Validation metrics
+
+**IoU (Intersection over Union)** measures geometric overlap between two polygons:
+
+IoU = Area(A ∩ B) / Area(A ∪ B)
+
+Interpretation:
+
+- IoU = 1.0 → perfect overlap
+- IoU ≈ 0.99 → near-identical geometry
+- IoU = 0 → no overlap
+
+SDEtool uses IoU throughout validation to compare ellipse geometry against ArcGIS and CrimeStat outputs.
+
 ## Components
 
 ### ArcGIS parity validation
