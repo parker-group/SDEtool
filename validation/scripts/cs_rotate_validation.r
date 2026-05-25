@@ -46,7 +46,7 @@ r_rot <- sde_cs[sde_cs$sd_level == 1, ]
 ###########################################################
 
 cs_rot <- st_read(
-"C:/Users/.../SDEtool/validation/data/CrimeStatValid/SDESDECS_Rotate.shp"
+"C:/Users/.../SDEtool/validation/data/CrimeStatValid/Rotate/SDESDECS_Rotate.shp"
 )
 
 st_crs(cs_rot) <- 4326
