@@ -114,7 +114,9 @@ Although reported rotation values differed between implementations, geometric ag
 
 **Figure G.** Synthetic rotation validation (*n = 50*). Synthetic points (gray), CrimeStat ellipse (red), and SDEtool ellipse (blue). Polygon overlap remained high (IoU = 0.975) despite differing reported rotation values.
 
+The full workflow used to generate the synthetic dataset, compute IoU, and export the validation figure is available in:
 
+`validation/cs_rotate_validation.R`
 
 ### Probabilistic coverage targets (MVN (multivariate normal))
 *Inference-oriented option that targets coverage \(p\) under a bivariate normal assumption.*
