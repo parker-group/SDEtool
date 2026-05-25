@@ -289,10 +289,30 @@ wcov_2d <- function(X, w) {
 #'
 #' pts <- convert_to_sf_utm(df)
 #'
-#' generate_sde_ellipses(
+#' # ArcGIS-compatible implementation
+#' sde_arcgis <- generate_sde_ellipses(
 #'   pts,
-#'   group_vars = NULL
+#'   group_vars = NULL,
+#'   mode = "arcgis"
 #' )
+#'
+#' # CrimeStat-compatible implementation
+#' sde_crimestat <- generate_sde_ellipses(
+#'   pts,
+#'   group_vars = NULL,
+#'   mode = "crimestat"
+#' )
+#'
+#' # Probabilistic implementation
+#' sde_prob <- generate_sde_ellipses(
+#'   pts,
+#'   group_vars = NULL,
+#'   mode = "prob"
+#' )
+#'
+#' head(sde_arcgis)
+#' head(sde_crimestat)
+#' head(sde_prob)
 #'
 #' @export
 generate_sde_ellipses <- function(
