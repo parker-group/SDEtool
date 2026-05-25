@@ -5,8 +5,8 @@
 
 
 # Load required libraries
-library(sf)
-library(dplyr)
+#library(sf) #switched to explicitly calling this instead of calling the library (i.e. sf::)
+#library(dplyr) #switched to explicitly calling this instead of calling the library
 library(purrr)
 
 # ----------------------------
@@ -299,8 +299,8 @@ generate_sde_ellipses <- function(
   to_return_crs <- if (output_crs == "working") sf::st_crs(work) else sf::st_crs(sf_data)
 
 
-  coords <- st_coordinates(work)
-  df <- work |> st_drop_geometry()
+  coords <- sf::st_coordinates(work)
+  df <- work |> sf::st_drop_geometry()
   df$x <- coords[,1]; df$y <- coords[,2]
 
   groups <- df |> dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |> dplyr::group_split()
@@ -397,18 +397,18 @@ if (!is.null(weight_col) && weight_col %in% names(g) &&
   sfc_poly <- sf::st_sfc(sf::st_polygon(list(coords_poly)), crs = sf::st_crs(work))
 
       # reproject active geometry if needed
-      geom_main <- if (output_crs == "working") sfc_poly else st_transform(sfc_poly, st_crs(sf_data))
+      geom_main <- if (output_crs == "working") sfc_poly else sf::st_transform(sfc_poly, sf::st_crs(sf_data))
 
       # optional metric geometry (for measuring in meters even if output in input CRS)
       geom_metric <- if (return_metric && output_crs == "input" && compute_in == "working") sfc_poly else NULL
 
       # area (of active geometry)
-      area_val <- as.numeric(st_area(geom_main))
+      area_val <- as.numeric(sf::st_area(geom_main))
 
       # percent inside using active geometry CRS
-      pts_sf <- st_as_sf(g, coords = c("x","y"), crs = st_crs(work))
-      pts_for_within <- if (output_crs == "working") pts_sf else st_transform(pts_sf, st_crs(sf_data))
-      inside <- st_within(pts_for_within, geom_main, sparse = FALSE)[,1]
+      pts_sf <- sf::st_as_sf(g, coords = c("x","y"), crs = sf::st_crs(work))
+      pts_for_within <- if (output_crs == "working") pts_sf else sf::st_transform(pts_sf, sf::st_crs(sf_data))
+      inside <- sf::st_within(pts_for_within, geom_main, sparse = FALSE)[,1]
       count_inside <- sum(w[inside]); percent_inside <- round(100 * count_inside / sum(w), 1)
 
       # row (keep your original fields; add new)
@@ -435,7 +435,7 @@ if (!is.null(weight_col) && weight_col %in% names(g) &&
       for (v in group_vars) row[[v]] <- g[[v]][1]
       row$geometry <- geom_main
       if (!is.null(geom_metric)) row$geom_metric <- geom_metric
-      results[[length(results) + 1]] <- st_as_sf(row)
+      results[[length(results) + 1]] <- sf::st_as_sf(row)
     }
   }
 
@@ -444,7 +444,7 @@ if (!is.null(weight_col) && weight_col %in% names(g) &&
   }
 
   out <- dplyr::bind_rows(results)
-  st_crs(out) <- to_return_crs
+  sf::st_crs(out) <- to_return_crs
   out
 }
 
