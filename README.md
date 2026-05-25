@@ -21,6 +21,7 @@ For background, see:
 ---
 
 ## 📂 Table of Contents
+- [📦 Installation](#-installation)
 - [⚡ Quickstart](#-quickstart)
 - [Workflow Steps](#-workflow-steps)
   - [1. Load the required functions](#1-load-the-required-functions)
@@ -37,6 +38,42 @@ For background, see:
 - [Validation](#-validation)
 - [Reference PDF](The%20Standard%20Deviational%20Ellipse%20%20An%20Updated%20Tool%20for%20Spatial%20Description.pdf)
 
+---
+## 📦 Installation
+
+### Option 1 — Install as an R package (recommended)
+
+Install directly from GitHub:
+
+```r
+install.packages("devtools")
+
+devtools::install_github("parker-group/SDEtool")
+
+library(SDEtool)
+```
+
+This installs SDEtool as a standard R package and makes the exported functions directly available.
+
+---
+
+### Option 2 — Source the script directly
+
+If you prefer a script-based workflow:
+
+```r
+source(
+"https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r"
+)
+```
+
+You can also download the repository and source locally:
+
+```r
+source("R/SDE_functions.r")
+```
+
+
 
 ---
 
@@ -45,8 +82,10 @@ For background, see:
 Just want to get some points and SDEs on a plot in R? Get started with this, no data needed:
 
 ```r
-# Step 1: Load functions
-source("https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r")
+# Step 1: Load package
+library(SDEtool)
+# Alternative:
+# source("https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r")
 
 # 2) Minimal data WITH a grouping column (>=5 pts per group)
 set.seed(1)
@@ -72,31 +111,48 @@ points(sf::st_coordinates(sf::st_geometry(sf_pts)), pch = 20)
 ```
 ---
 
-
 ## 🔧 Workflow Steps
 
-### 1. Load the required functions
+### 1. Load SDEtool
 
-You must first load the R functions before any other step will work.
+SDEtool can now be used either as an installed R package or as a standalone script.
 
-There are **three ways** to do this:
+There are **four ways** to do this:
 
-- 🖱️ **Option 1: Copy + paste directly into R**  
-  You can literally go to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
+- 📦 **Option 1: Install and use as an R package (recommended)**  
 
-- 💻 **Option 2: Source the file locally** (if you've cloned or downloaded this repo)  
+```r
+library(SDEtool)
+```
+
+Install from GitHub if needed:
+
+```r
+install.packages("devtools")
+
+devtools::install_github("parker-group/SDEtool")
+
+library(SDEtool)
+```
+
+- 🖱️ **Option 2: Copy + paste directly into R**  
+You can literally go to the `SDE_functions.r` script, copy the functions, and paste them into your R console.
+
+- 💻 **Option 3: Source the file locally** (if you've cloned or downloaded this repo)
+
 ```r
 source("R/SDE_functions.r")
 ```
 
-- 🌐 **Option 3: Source directly from GitHub**  
+- 🌐 **Option 4: Source directly from GitHub**
+
 ```r
 source("https://raw.githubusercontent.com/parker-group/SDEtool/main/R/SDE_functions.r")
 ```
 
 ➡️ [**View the full `SDE_functions.r` script on GitHub**](https://github.com/parker-group/SDEtool/blob/main/R/SDE_functions.r)
 
-
+💡 The package workflow is now recommended for most users, but the script-based workflows remain fully supported.
 ---
 
 ### 2. Load your data
