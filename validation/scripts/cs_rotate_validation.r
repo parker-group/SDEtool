@@ -10,28 +10,41 @@ library(SDEtool)
 # Generate synthetic rotated data
 ###########################################################
 
-set.seed(42)
+#set.seed(42)
 
-n <- 50
+#n <- 50
 
-x <- rnorm(n, mean = 0, sd = 3)
-y <- rnorm(n, mean = 0, sd = 1)
+#x <- rnorm(n, mean = 0, sd = 3)
+#y <- rnorm(n, mean = 0, sd = 1)
 
-theta <- pi / 4
+#theta <- pi / 4
 
-x_rot <- x*cos(theta) - y*sin(theta)
-y_rot <- x*sin(theta) + y*cos(theta)
+#x_rot <- x*cos(theta) - y*sin(theta)
+#y_rot <- x*sin(theta) + y*cos(theta)
 
-df_test <- data.frame(
-  longitude = x_rot + 103,
-  latitude = y_rot + 18
+#df_test <- data.frame(
+#  longitude = x_rot + 103,
+#  latitude = y_rot + 18
+#)
+
+###########################################################
+# Load synthetic rotated data
+###########################################################
+
+df_test <- read.csv(
+"C:/Users/.../SDEtool/validation/data/Synthetic/rotate_input.csv"
 )
+
+sf_pts <- st_read(
+"C:/Users/.../SDEtool/validation/data/Synthetic/rotate_points.shp"
+)
+
+sf_pts_proj <- convert_to_sf_utm(sf_pts)
 
 ###########################################################
 # Generate SDEtool ellipse
 ###########################################################
 
-sf_pts_proj <- convert_to_sf_utm(df_test)
 
 sde_cs <- generate_sde_ellipses(
   sf_data = sf_pts_proj,
