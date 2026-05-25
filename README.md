@@ -163,7 +163,7 @@ lon_candidates <- c("longitude", "Longitude", "lon", "Lon", "x", "X")
 
 If your coordinate columns don't match these, rename them before running the functions.
 
-If you're grouping by a variable (e.g., region, year, or category), name it or them clearly — e.g., "Region" or "genus" (`group_vars = "Region"`). You can have multiple (`group_vars = c("Region", "genus")`). 
+If you're grouping by a variable (e.g., region, year, species, category, village, or treatment group), name it clearly. In the examples below we use a generic example called `group_var`, but this can be any column name (e.g., `"Region"`, `"Year"`, `"genus"`). You can have multiple (`group_vars = c("Region", "genus")`). 
 
 If your data have repeats per location, you can either run the tool with multiple rows having the same location - or - you could generate a dataset that has one row per location and a count of people or samples from each location. Make sure you clearly name that "count" variable as well, and you can use that as a `weight` in the SDE function (`weight_col = count`). 
 
@@ -235,17 +235,32 @@ These three arguments control where the math happens and how results are returne
 
 ---
 
-Now, here’s a typical call:
+### Example A — WGS84 workflow (Option A above)
+
 ```r
 sde_sf <- generate_sde_ellipses(
-  sf_data        = sf_pts_proj,   # sf POINTS
-  group_vars     = "Region",      # or NULL for all points
-  sd_levels      = c(1, 2, 3),
-  mode           = "arcgis",      # "arcgis" | "crimestat" | "prob"
-  compute_in     = "working",     # where math happens: "input" = use sf_data CRS; "working" = use working_crs (transform only if different)
-  working_crs    = "auto_utm",    # e.g., 32648 or "auto_utm"
-  output_crs     = "working"      # "input" to keep EPSG:4326 geometry
+  sf_data        = sf_pts,
+  group_vars     = "group_var",
+  sd_levels      = c(1,2,3),
+  mode           = "arcgis",
+  compute_in     = "input",
+  output_crs     = "input"
 )
+```
+
+### Example B — UTM workflow (Option B/C above)
+
+```r
+sde_sf <- generate_sde_ellipses(
+  sf_data        = sf_pts_proj,
+  group_vars     = "group_var",
+  sd_levels      = c(1,2,3),
+  mode           = "arcgis",
+  compute_in     = "working",
+  working_crs    = "auto_utm",
+  output_crs     = "working"
+)
+```
 ```
 #### Argument reference (quick summary) ➡️ **Full parameter reference:** [`generate_sde_ellipses.md`](generate_sde_ellipses.md)
 
