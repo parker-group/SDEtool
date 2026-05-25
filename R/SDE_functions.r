@@ -285,15 +285,22 @@ generate_sde_ellipses <- function(
   output_crs <- match.arg(output_crs, c("input","working"))
 
   # Choose the working layer
-  work <- sf_data
-  if (compute_in == "working") {
-    if (is.null(working_crs) || identical(working_crs, "auto_utm")) {
+work <- sf_data
+if (compute_in == "working") {
+  if (is.null(working_crs) || identical(working_crs, "auto_utm")) {
+    # If data are geographic (lon/lat), auto-pick UTM
+    if (sf::st_is_longlat(sf_data)) {
       coords <- sf::st_coordinates(sf_data)
-      lon <- coords[,1]; lat <- coords[,2]
+      lon <- coords[,1]
+      lat <- coords[,2]
       working_crs <- auto_utm(lon, lat)
+    } else {
+      # Already projected: keep existing CRS
+      working_crs <- sf::st_crs(sf_data)
     }
-    work <- sf::st_transform(sf_data, working_crs)
   }
+  work <- sf::st_transform(sf_data, working_crs)
+}
 
   # Decide which CRS the returned active geometry will use
   to_return_crs <- if (output_crs == "working") sf::st_crs(work) else sf::st_crs(sf_data)
