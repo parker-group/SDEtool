@@ -24,7 +24,7 @@ For background, see:
 - [📦 Installation](#-installation)
 - [⚡ Quickstart](#-quickstart)
 - [Workflow Steps](#-workflow-steps)
-  - [1. Load the required functions](#1-load-the-required-functions)
+  - [1. Load SDEtool](#1-load-sdetool)
   - [2. Load your data](#2-load-your-data)
   - [3. Make it spatial (sf) — choose WGS84 or UTM](#3-make-it-spatial-sf--choose-wgs84-or-utm)
   - [4. Generate SDEs (modes: arcgis, crimestat, prob)](#4-generate-sdes-modes-arcgis-crimestat-prob)
@@ -119,19 +119,11 @@ SDEtool can now be used either as an installed R package or as a standalone scri
 
 There are **four ways** to do this:
 
-- 📦 **Option 1: Install and use as an R package (recommended)**  
+- 📦 **Option 1: Install and use as an R package (recommended)**
+
+Install instructions are provided above in the **Installation** section.
 
 ```r
-library(SDEtool)
-```
-
-Install from GitHub if needed:
-
-```r
-install.packages("devtools")
-
-devtools::install_github("parker-group/SDEtool")
-
 library(SDEtool)
 ```
 
@@ -551,6 +543,6 @@ There are several other tools that support Standard Deviational Ellipse (SDE) ca
 
 These tools are well established and widely used within desktop GIS environments.
 
-This R-based tool was created to provide a fully **open-source**, **script-based**, and **reproducible** alternative tailored for R users. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analyses.  
+This R-based tool was created to provide a fully open-source, reproducible workflow for Standard Deviational Ellipse analysis in R. It integrates smoothly into analytical workflows, supports **weighted points**, **custom grouping**, and offers flexible control over ellipse generation — making it especially suitable for transparent and research-grade spatial analyses.  
 
 I developed this tool after encountering limitations with plugin-based approaches and needing a workflow that could be easily validated, customized, and shared in R. Feel free to fork or adapt!
