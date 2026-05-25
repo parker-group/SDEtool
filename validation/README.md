@@ -34,7 +34,7 @@ Compares:
 
 Metrics:
 
-- IoU overlap
+- IoU (Intersection over Union) overlap
 - angle agreement
 - metric parity in projected CRS
 
