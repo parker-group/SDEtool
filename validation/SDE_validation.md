@@ -158,11 +158,10 @@ In such cases, the geometric ellipse remains valid as a descriptive representati
 
 A possible future extension would evaluate **coverage error** as:
 
-**coverage error = observed coverage − target coverage**
+`coverage error = observed coverage − target coverage`
 
 Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
 
-Large deviations between observed and expected coverage may provide a diagnostic signal of clustering, multimodality, or non-Gaussian spatial structure.
 
 **Ellipse center, axes, and area**
 - **Center:** Sample mean of \(x, y\) in the computation CRS (weighted or unweighted, depending on inputs).
