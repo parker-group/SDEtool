@@ -1,24 +1,38 @@
-## SDEtool 1.1.0
-
-### Added
-- R package documentation and help pages generated via roxygen2
-- Documentation for `generate_sde_ellipses()`
-- Expanded validation workflow including repeated MVN simulation validation
-- Added `validation/probabilistic_validation.R`
-- Discussion of MVN assumptions and probabilistic interpretation limits
-- README installation and workflow improvements
-
-### Changed
-- Improved package examples and workflow documentation
-
-### Fixed
-- CRS handling improvements
-- Geometry construction updates to avoid duplicate ring vertices
-
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [v1.1.0] - 2026-05-25
+
+### Added
+- R package documentation and help pages generated with roxygen2
+- Documentation for `generate_sde_ellipses()`
+- Probabilistic SDE implementation with MVN coverage targets
+- Repeated MVN simulation validation workflow
+- Synthetic rotation validation against CrimeStat
+- Expanded validation framework:
+  - ArcGIS validation
+  - CrimeStat validation
+  - Synthetic validation datasets
+- Validation documentation and figures
+- Discussion of MVN assumptions and covariance ellipse interpretation
+
+### Changed
+- Reorganized validation structure into:
+  - `validation/data/ArcGISValid/`
+  - `validation/data/CrimeStatValid/`
+  - `validation/data/Synthetic/`
+  - `validation/scripts/`
+  - `validation/figures/`
+- Improved package examples and workflow documentation
+- Updated README installation and usage guidance
+
+### Fixed
+- CRS handling improvements
+- Geometry construction updates to avoid duplicate ring vertices
+- Relative path handling in validation workflows
+- Rotation validation workflow cleanup****
 
 ## [v1.0.0] - 2025-07-26
 ### Added
